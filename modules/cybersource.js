@@ -12,7 +12,7 @@ const {
   PaymentsApi,
   MicroformIntegrationApi,
   CreatePaymentRequest,
-  GenerateCaptureContextRequest,
+  GenerateCaptureContextRequest
 } = require('cybersource-rest-client');
 
 /**
@@ -62,16 +62,17 @@ async function validateTokenIntegrity(token) {
  */
 async function generateCaptureContext() {
   const methodID = 'generateCaptureContext';
-  const apiClient = new ApiClient();
-  const instance = new MicroformIntegrationApi(cyberSourceConfig, apiClient);
-
-  const requestData = GenerateCaptureContextRequest.constructFromObject({
-    clientVersion: 'v2.0',
-    targetOrigins: ['http://localhost:3000'],
-    allowedCardNetworks: ['VISA', 'MASTERCARD', 'AMEX', 'DISCOVER']
-  });
 
   return new Promise((resolve, reject) => {
+    const apiClient = new ApiClient();
+    const instance = new MicroformIntegrationApi(cyberSourceConfig, apiClient);
+  
+    const requestData = GenerateCaptureContextRequest.constructFromObject({
+      clientVersion: 'v2.0',
+      targetOrigins: ['http://localhost:3000'],
+      allowedCardNetworks: ['VISA', 'MASTERCARD', 'AMEX', 'DISCOVER']
+    });
+  
     instance.generateCaptureContext(requestData, (err, data, response) => {
       if (response) {
         console.log(`\n *** ${methodID} Response ***\n`, JSON.stringify(response));
@@ -92,8 +93,6 @@ async function generateCaptureContext() {
  */
 async function createCustomer(options) {
   const methodID = 'createCustomer';
-  const apiClient = new ApiClient();
-  const instance = new PaymentsApi(cyberSourceConfig, apiClient);
   let isValidTransientToken = true;
 
   try {
@@ -136,6 +135,9 @@ async function createCustomer(options) {
 
   return new Promise((resolve, reject) => {
     if (isValidTransientToken) {
+      const apiClient = new ApiClient();
+      const instance = new PaymentsApi(cyberSourceConfig, apiClient);
+    
       instance.createPayment(requestData, (err, data, response) => {
         if (response) {
           console.log(`\n *** ${methodID} Response ***\n`, JSON.stringify(response));
@@ -159,8 +161,6 @@ async function createCustomer(options) {
  */
 async function addPaymentMethod(options) {
   const methodID = 'addPaymentMethod';
-  const apiClient = new ApiClient();
-  const instance = new PaymentsApi(cyberSourceConfig, apiClient);
   let isValidTransientToken = false;
 
   try {
@@ -207,6 +207,9 @@ async function addPaymentMethod(options) {
 
   return new Promise((resolve, reject) => {
     if (isValidTransientToken) {
+      const apiClient = new ApiClient();
+      const instance = new PaymentsApi(cyberSourceConfig, apiClient);
+    
       instance.createPayment(requestData, (err, data, response) => {
         if (response) {
           console.log(`\n *** ${methodID} Response ***\n`, JSON.stringify(response));
