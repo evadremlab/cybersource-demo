@@ -1,0 +1,33 @@
+{
+  "data": {
+    "expirationYear": "2024",
+    "number": "555555XXXXXX4444",
+    "expirationMonth": "12",
+    "type": "002"
+  },
+  "iss": "Flex/07",
+  "exp": 1727910438,
+  "type": "mf-0.11.0",
+  "iat": 1727909538,
+  "jti": "1E328ONA83XF5BNIWLFH8Y23VHZN2AHURL5RKWBR8HRY8X2UJFZP66FDD2269314",
+  "content": {
+    "paymentInformation": {
+      "card": {
+        "expirationYear": {
+          "value": "2024"
+        },
+        "number": {
+          "maskedValue": "XXXXXXXXXXXX4444",
+          "bin": "555555"
+        },
+        "securityCode": {},
+        "expirationMonth": {
+          "value": "12"
+        },
+        "type": {
+          "value": "002"
+        }
+      }
+    }
+  }
+}

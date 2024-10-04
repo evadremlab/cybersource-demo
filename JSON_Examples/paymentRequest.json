@@ -1,0 +1,16 @@
+{
+  "clientReferenceInformation": {
+    "code": "6429-PERM259643-306693-4875"
+  },
+  "paymentInformation": {
+    "paymentInstrument": {
+      "id": "238812209805C8ABE063AF598E0A2101"
+    }
+  },
+  "orderInformation": {
+    "amountDetails": {
+      "currency": "USD",
+      "totalAmount": "10.00"
+    }
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "_links": {
+    "authReversal": {
+      "method": "POST",
+      "href": "/pts/v2/payments/7279132823486295003955/reversals"
+    },
+    "self": {
+      "method": "GET",
+      "href": "/pts/v2/payments/7279132823486295003955"
+    },
+    "capture": {
+      "method": "POST",
+      "href": "/pts/v2/payments/7279132823486295003955/captures"
+    }
+  },
+  "clientReferenceInformation": {
+    "code": "david_b_balmer_gmail_com"
+  },
+  "consumerAuthenticationInformation": {
+    "token": "Axj/7wSTippCwHZSzVMzABsZapw5MdjTZQ5reMnvxR3+AwEnvxR3+A2kAELSGTSTL0YwqvjYTJOKmkLAdlLNUzMA4m/7"
+  },
+  "id": "7279132823486295003955",
+  "issuerInformation": {
+    "responseRaw": "0110322000000E10000200000000000000000010022354430716595A53434947315332434D3746383331303030383500015901170048313441303630324D434336303334373420202020202020202020202020202020202020203030303030303030303030300014323241565320414343455054454400494D433031311C3032301C3033311C3034301C3035351C3036301C3037531C3038301C3039351C3130311C3131311C313230"
+  },
+  "orderInformation": {
+    "amountDetails": {
+      "authorizedAmount": "0.00",
+      "currency": "USD"
+    }
+  },
+  "paymentAccountInformation": {
+    "card": {
+      "type": "002"
+    }
+  },
+  "paymentInformation": {
+    "tokenizedCard": {
+      "type": "002"
+    },
+    "scheme": "MASTERCARD PREPAID",
+    "bin": "555555",
+    "accountType": "PREPAID",
+    "issuer": "CIAGROUP",
+    "card": {
+      "type": "002"
+    },
+    "binCountry": "BR"
+  },
+  "pointOfSaleInformation": {
+    "terminalId": "00123456"
+  },
+  "processorInformation": {
+    "merchantNumber": "000000000123456",
+    "approvalCode": "831000",
+    "networkTransactionId": "0602MCC603474",
+    "transactionId": "0602MCC603474",
+    "responseCode": "85",
+    "avs": {
+      "code": "Y",
+      "codeRaw": "Y"
+    }
+  },
+  "reconciliationId": "ZSCIG1S2CM7F",
+  "riskInformation": {
+    "localTime": "16:54:42",
+    "score": {
+      "result": "37",
+      "factorCodes": [
+        "B",
+        "G"
+      ],
+      "modelUsed": "default"
+    },
+    "infoCodes": {
+      "address": [
+        "MM-BIN",
+        "UNV-ADDR"
+      ],
+      "suspicious": [
+        "INTL-BIN",
+        "RISK-GEO"
+      ]
+    },
+    "profile": {
+      "earlyDecision": "ACCEPT",
+      "name": "Standard mid-market profile",
+      "selectorRule": "Default Active Profile"
+    },
+    "rules": [
+      {
+        "decision": "IGNORE",
+        "name": "Fraud Score - Monitor",
+        "executionTiming": "PRE_AUTH"
+      }
+    ]
+  },
+  "status": "AUTHORIZED",
+  "submitTimeUtc": "2024-10-02T23:54:43Z",
+  "tokenInformation": {
+    "instrumentidentifierNew": true,
+    "instrumentIdentifier": {
+      "state": "ACTIVE",
+      "id": "7031410000201134444"
+    },
+    "paymentInstrument": {
+      "id": "238812209805C8ABE063AF598E0A2101"
+    },
+    "customer": {
+      "id": "2387E7B265C60B82E063AF598E0AB911"
+    }
+  }
+}

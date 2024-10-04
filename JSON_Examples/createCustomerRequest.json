@@ -1,0 +1,35 @@
+{
+  "clientReferenceInformation": {
+    "code": "david_b_balmer_gmail_com"
+  },
+  "processingInformation": {
+    "commerceIndicator": "internet",
+    "actionList": [
+      "TOKEN_CREATE"
+    ],
+    "actionTokenTypes": [
+      "customer",
+      "paymentInstrument"
+    ],
+    "capture": false
+  },
+  "orderInformation": {
+    "amountDetails": {
+      "totalAmount": "0.00",
+      "currency": "USD"
+    },
+    "billTo": {
+      "email": "david.balmer@transsight.com",
+      "locality": "Alameda",
+      "firstName": "David",
+      "lastName": "Balmer",
+      "address1": "100 Main Street",
+      "country": "US",
+      "administrativeArea": "CA",
+      "postalCode": "94501"  
+    }
+  },
+  "tokenInformation": {
+    "transientTokenJwt": "eyJraWQiOiIwOFJKc0poWXM4a3JkeVlJWGd6cDdlMGRaZlZWTVpJbiIsImFsZyI6IlJTMjU2In0.eyJkYXRhIjp7ImV4cGlyYXRpb25ZZWFyIjoiMjAyNCIsIm51bWJlciI6IjU1NTU1NVhYWFhYWDQ0NDQiLCJleHBpcmF0aW9uTW9udGgiOiIxMiIsInR5cGUiOiIwMDIifSwiaXNzIjoiRmxleC8wNyIsImV4cCI6MTcyNzkxMjc5OCwidHlwZSI6Im1mLTAuMTEuMCIsImlhdCI6MTcyNzkxMTg5OCwianRpIjoiMUU0UVdHTTg5MUFJUkhHTlBEN1hMSjFURVJSR1BSMjhVNk1BNkozQVdJSVlCMEk4Rlg3NTY2RkREQjVFNTM0NCIsImNvbnRlbnQiOnsicGF5bWVudEluZm9ybWF0aW9uIjp7ImNhcmQiOnsiZXhwaXJhdGlvblllYXIiOnsidmFsdWUiOiIyMDI0In0sIm51bWJlciI6eyJtYXNrZWRWYWx1ZSI6IlhYWFhYWFhYWFhYWDQ0NDQiLCJiaW4iOiI1NTU1NTUifSwic2VjdXJpdHlDb2RlIjp7fSwiZXhwaXJhdGlvbk1vbnRoIjp7InZhbHVlIjoiMTIifSwidHlwZSI6eyJ2YWx1ZSI6IjAwMiJ9fX19fQ.bF2EqSx6L5Gl83DLLLukTscs1c15-9KmxXPJrLHAJvnOj3F2MJijqVPhkyis9wTz0DoLr_2HwqktiIs7IT1xd0_kSzusUKqSgnIwAXBmGSNpLyiDNwN82UzPnZ-Z1Jl5RxqvrkJ2LTDc1ZBPHeVyO26GuoLDwBFZbGidJ8OK3VcvvS85aVAvMYpMrS8l6BLn3DeXgb-KhNDCTxNLleTah7hnyHhIf2Lhkh7W2CSOQ9F4mJSyNkQpIxnDvxa2aED0CI8EtgDAVKEebrD0rzH7qMVWXLM8o-Kk-BWO-CAaceasEI2-EDEGDXyrRZV-5WolOJg2MvnfeEbF66NzYtae0A"
+  }
+}

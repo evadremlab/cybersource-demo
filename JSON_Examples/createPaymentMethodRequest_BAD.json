@@ -1,0 +1,41 @@
+{
+  "clientReferenceInformation": {
+      "code": "another-fake-order_id"
+  },
+  "processingInformation": {
+      "actionList": [
+          "TOKEN_CREATE"
+      ],
+      "actionTokenTypes": [
+          "paymentInstrument"
+      ],
+      "capture": false
+  },
+  "paymentInformation": {
+      "customer": {
+          "id": "2387E7B265C60B82E063AF598E0AB911"
+      }
+  },
+  "orderInformation": {
+      "amountDetails": {
+          "totalAmount": "0",
+          "currency": "USD"
+      },
+      "billTo": {
+          "firstName": "David",
+          "lastName": "Balmer",
+          "address1": "123 Main Street",
+          "locality": "Alameda",
+          "administrativeArea": "CA",
+          "postalCode": "94501",
+          "country": "US",
+          "email": "david.b.balmer@gmail.com"
+      }
+  },
+  "tokenInformation": {
+      "transientTokenJwt": "eyJraWQiOiIwOHAxMlAwV3cxS1ZFNTlCOVczaklmT291eHRiTVdVZiIsImFsZyI6IlJTMjU2In0.eyJpc3MiOiJGbGV4LzA3IiwiZXhwIjoxNzI4MDE2OTU2LCJ0eXBlIjoibWYtMi4wLjAiLCJpYXQiOjE3MjgwMTYwNTYsImp0aSI6IjFFMDJIWVRVUkk1TlRZWkJRRTVFVVoyUUg5RUlVNkNQUFlEQkhVTVZUTFZMQ1FEOEoySUI2NkZGNzIzQzQ5QzAiLCJjb250ZW50Ijp7InBheW1lbnRJbmZvcm1hdGlvbiI6eyJjYXJkIjp7ImV4cGlyYXRpb25ZZWFyIjp7InZhbHVlIjoiMjAyNCJ9LCJudW1iZXIiOnsibWFza2VkVmFsdWUiOiJYWFhYWFhYWFhYWFgxMTEzIiwiYmluIjoiMjIyMjQyIn0sInNlY3VyaXR5Q29kZSI6e30sImV4cGlyYXRpb25Nb250aCI6eyJ2YWx1ZSI6IjEyIn0sInR5cGUiOnsidmFsdWUiOiIwMDIifX19fX0.PiZRPbbTFOfnOVAIgMPH6_BxcRF1s8Vo-rrtFbL_jWCDLkRTlAMr0GV2P9bFgZ-MVNyZcRRyU_WHOuafi1xRMZX-0jjxGvcC49OiMRF7W_0Nh8utiU26kQEb_3Av_K9t5spgUEd5cY_0U6I6DI39C26uNc95OGnU3FmkRQdayuj5Q3iUHCjdYCbfVruRp-nyEeIllArow8xZrvS08fhnmfXftRNduMuVQuRoKhG_XuhmoDNELq1B_brKpo-6SCrJBcFf1QRJv8LeV8NboBcuBcyi6MpulcBLZEFRJnSa5UHchyWeiDsNymcNMHQw5S_Q3ryP3EbSXTiRh6nEDQ3uSg",
+      "paymentInstrument": {
+          "default": false
+      }
+  }
+}

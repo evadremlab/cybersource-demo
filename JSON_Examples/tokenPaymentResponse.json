@@ -1,0 +1,33 @@
+{
+  "req": {
+    "method": "post",
+    "url": "https://apitest.cybersource.com/pts/v2/payments",
+    "data": "{\"clientReferenceInformation\":{\"code\":\"and-again-yet-another-order-id\",\"partner\":{\"developerId\":\"N2RC3Q4K\"}},\"processingInformation\":{\"capture\":true},\"paymentInformation\":{\"paymentInstrument\":{\"id\":\"238812209805C8ABE063AF598E0A2101\"}},\"orderInformation\":{\"amountDetails\":{\"totalAmount\":\"123.45\",\"currency\":\"USD\"}}}",
+    "headers": {
+      "Accept": "application/hal+json;charset=utf-8",
+      "Content-Type": "application/json",
+      "digest": "SHA-256=niFqog3VaMMfmBOXrlLfRPHd6bCICPTlALB2ewn7f5s=",
+      "v-c-merchant-id": "transsightdev_1718140723",
+      "date": "Thu, 03 Oct 2024 20:45:10 GMT",
+      "host": "apitest.cybersource.com",
+      "signature": "keyid=\"ad81163c-aa36-471d-be21-9ac7c7ebbe99\", algorithm=\"HmacSHA256\", headers=\"host date request-target digest v-c-merchant-id\", signature=\"sGkbu1yU3vRbGtiMkvMBPTMjWxNXrVimK5uo35S3Scg=\"",
+      "User-Agent": "Mozilla/5.0",
+      "Content-Length": "314",
+      "Accept-Encoding": "gzip, compress, deflate, br"
+    }
+  },
+  "header": {
+    "cache-control": "no-cache, no-store, must-revalidate",
+    "pragma": "no-cache",
+    "expires": "-1",
+    "strict-transport-security": "max-age=31536000",
+    "content-type": "application/hal+json",
+    "content-length": "2058",
+    "x-response-time": "1364ms",
+    "x-opnet-transaction-trace": "20503e27-dcc3-42d2-a7ed-9918fa3242d7",
+    "v-c-correlation-id": "67285489-381f-4e03-8379-6cd6005e339f",
+    "connection": "close"
+  },
+  "status": 201,
+  "text": "{\"_links\":{\"void\":{\"method\":\"POST\",\"href\":\"/pts/v2/payments/7279883110176390503954/voids\"},\"self\":{\"method\":\"GET\",\"href\":\"/pts/v2/payments/7279883110176390503954\"}},\"clientReferenceInformation\":{\"code\":\"and-again-yet-another-order-id\",\"partner\":{\"developerId\":\"N2RC3Q4K\"}},\"consumerAuthenticationInformation\":{\"token\":\"Axj//wSTiqSsTjtNpd4SABsQ3csm7dg5aJ78UkEzYBJ78UkEzZpA7A5QtYZNJMvRjCq+NDCZJxVJWJx2m0u8JAAAZw2m\"},\"id\":\"7279883110176390503954\",\"issuerInformation\":{\"responseRaw\":\"0110322000000E10000200000000000001234510032045120944963035524F4231533251413743383331303030303000015901130048313441303630324D4343363033343734202020202020202020202020202020202020202030303030303030303030303000103232415050524F56414C00494D433031311C3032301C3033311C3034301C3035351C3036301C3037531C3038301C3039351C3130311C3131311C313230\"},\"orderInformation\":{\"amountDetails\":{\"totalAmount\":\"123.45\",\"authorizedAmount\":\"123.45\",\"currency\":\"USD\"}},\"paymentAccountInformation\":{\"card\":{\"type\":\"002\"}},\"paymentInformation\":{\"tokenizedCard\":{\"type\":\"002\"},\"scheme\":\"MASTERCARD PREPAID\",\"instrumentIdentifier\":{\"id\":\"7031410000201134444\",\"state\":\"ACTIVE\"},\"bin\":\"555555\",\"accountType\":\"PREPAID\",\"paymentInstrument\":{\"id\":\"238812209805C8ABE063AF598E0A2101\"},\"issuer\":\"CIAGROUP\",\"card\":{\"type\":\"002\"},\"binCountry\":\"BR\"},\"pointOfSaleInformation\":{\"terminalId\":\"00123456\"},\"processorInformation\":{\"merchantNumber\":\"000000000123456\",\"approvalCode\":\"831000\",\"authIndicator\":\"1\",\"networkTransactionId\":\"0602MCC603474\",\"transactionId\":\"0602MCC603474\",\"responseCode\":\"00\",\"avs\":{\"code\":\"Y\",\"codeRaw\":\"Y\"}},\"reconciliationId\":\"79277094\",\"riskInformation\":{\"localTime\":\"13:45:11\",\"score\":{\"result\":\"31\",\"factorCodes\":[\"B\",\"G\"],\"modelUsed\":\"default\"},\"infoCodes\":{\"address\":[\"MM-BIN\",\"UNV-ADDR\"],\"suspicious\":[\"INTL-BIN\",\"RISK-GEO\"]},\"profile\":{\"earlyDecision\":\"ACCEPT\",\"name\":\"Standard mid-market profile\",\"selectorRule\":\"Default Active Profile\"},\"rules\":[{\"decision\":\"IGNORE\",\"name\":\"Fraud Score - Monitor\",\"executionTiming\":\"PRE_AUTH\"}]},\"status\":\"AUTHORIZED\",\"submitTimeUtc\":\"2024-10-03T20:45:12Z\"}"
+}

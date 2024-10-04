@@ -1,0 +1,33 @@
+{
+  "req": {
+    "method": "post",
+    "url": "https://apitest.cybersource.com/microform/v2/sessions",
+    "data": "{\"targetOrigins\":[\"http://localhost:3000\"],\"allowedCardNetworks\":[\"VISA\",\"MASTERCARD\",\"AMEX\",\"DISCOVER\"],\"clientVersion\":\"v2.0\"}",
+    "headers": {
+      "Accept": "application/jwt",
+      "Content-Type": "application/json",
+      "digest": "SHA-256=qR7ueSeyeT04BK6Co7rxq0wlUS43nxyk8rGDRh6wSS0=",
+      "v-c-merchant-id": "transsightdev_1718140723",
+      "date": "Thu, 03 Oct 2024 21:24:00 GMT",
+      "host": "apitest.cybersource.com",
+      "signature": "keyid=\"ad81163c-aa36-471d-be21-9ac7c7ebbe99\", algorithm=\"HmacSHA256\", headers=\"host date request-target digest v-c-merchant-id\", signature=\"B9IIzQwsYUDC80SzeKXuBtR1izioT8TOtAiSj74eZ28=\"",
+      "User-Agent": "Mozilla/5.0",
+      "Content-Length": "128",
+      "Accept-Encoding": "gzip, compress, deflate, br"
+    }
+  },
+  "header": {
+    "strict-transport-security": "max-age=31536000",
+    "cache-control": "no-cache, no-store, must-revalidate",
+    "pragma": "no-cache",
+    "expires": "-1",
+    "x-download-options": "noopen",
+    "content-type": "application/jwt;charset=UTF-8",
+    "content-length": "1773",
+    "date": "Thu, 03 Oct 2024 21:24:01 GMT",
+    "connection": "close",
+    "v-c-correlation-id": "30da7f65-6e77-494c-97ea-0b82376b8f6a"
+  },
+  "status": 201,
+  "text": "\"eyJraWQiOiJ6dSIsImFsZyI6IlJTMjU2In0.eyJmbHgiOnsicGF0aCI6Ii9mbGV4L3YyL3Rva2VucyIsImRhdGEiOiJPbk5VVGlmNTBwM042cGdCNTFWQlpCQUFFS2Qyc1ovVmk0c3dHMkZqTENEdU5mNFZwb0hwNDdZZmVkZTk0TjN5Ui9laGFiMFJIRUlTNWNWcC9tODBPdGM0MEorbUxRWGVjblJ4UEJ1ZTluNkYzWk42cHRYUm1Xblg1M0Z0V1BzMFRQM0Nsa0VidGU3blpkR0l1OExtVWFpTEVRXHUwMDNkXHUwMDNkIiwib3JpZ2luIjoiaHR0cHM6Ly90ZXN0ZmxleC5jeWJlcnNvdXJjZS5jb20iLCJqd2siOnsia3R5IjoiUlNBIiwiZSI6IkFRQUIiLCJ1c2UiOiJlbmMiLCJuIjoiM2ZxRmptWXptLTQ4d0V0WUw0bEJKS0RQTEpHQ2dCSjNDQnlnQnFxWkhjWHlsY0M3dldpVUJhTElOZ3FwVlVzRThRSXVQamxrbnRCLVJIaUk4Si14N3ZJZEhOUmZCZTZGRWp4Vk1DUDdOOWpLNDlfcjZtNlhCMWpKR2RORllpQW1WcUdnYnVqM01MY1FINzAxd0ZfaFFYQ0J3dXhaYkNiV0xnZFNHN2VaY2RPUW05WHI0YWhZaFpWSVREME9Nam5fcVdyc0NXbHBYdDlsSUNwVlM0Y3k3VmF0UWFUUFhDU0ZWYkxhNjktWDJ6MTNPNmt4alIwMmcyNl80UE9Nb1lhR29RVXNUSENpbUx0SWVvc1JGR041WFpSanNFcjZmOWJpdmFlejhzb052b1pOVGhRUFltdmhTODlDdUE4X2hxRmdROGZyVlRWRE9kdUhyYmtXX0puR1R3Iiwia2lkIjoiMDg5VTd0TTlqV0kwTGNibTVJaVFQbVMwZkR3S21HelYifX0sImN0eCI6W3siZGF0YSI6eyJjbGllbnRMaWJyYXJ5IjoiaHR0cHM6Ly90ZXN0ZmxleC5jeWJlcnNvdXJjZS5jb20vbWljcm9mb3JtL2J1bmRsZS92Mi4wL2ZsZXgtbWljcm9mb3JtLm1pbi5qcyIsImFsbG93ZWRDYXJkTmV0d29ya3MiOlsiVklTQSIsIk1BU1RFUkNBUkQiLCJBTUVYIiwiRElTQ09WRVIiXSwidGFyZ2V0T3JpZ2lucyI6WyJodHRwOi8vbG9jYWxob3N0OjMwMDAiXSwibWZPcmlnaW4iOiJodHRwczovL3Rlc3RmbGV4LmN5YmVyc291cmNlLmNvbSJ9LCJ0eXBlIjoibWYtMi4wLjAifV0sImlzcyI6IkZsZXggQVBJIiwiZXhwIjoxNzI3OTkxNTQxLCJpYXQiOjE3Mjc5OTA2NDEsImp0aSI6ImdMZWI3M1lWU2Zya0pzOWcifQ.RL0zkdt9e7PhpH6Q4umW7eBEikFsWgHbu5iLOeaMc87MW3ESlHr-5Ozh-2rNBn4hTBNedcpEKaXCHwAqfqLnRgRgytu7e_ib1qp2yRTLznRoYje74dAHUfixu68iyvV9NUuGcrReklzoFoEt_Y_CbP2uuH7dmOGWUSGI9GG7r8O6gOhRAeEUz-1eKwUJ0r0-CbdGp_Kmq6F2jXp8TknaWnPgijVgZr9KN5NJaMUzeB7g95UuolIy32IO_mUhmHIo39TbStGh5MiJN-dlVsyrgAm-EYH7Kd654vuCoZZmSvQPAy68j6XhoPDGZ5zK9ThHbV4wtkfjVZrrBDh1iQFtVw\""
+}

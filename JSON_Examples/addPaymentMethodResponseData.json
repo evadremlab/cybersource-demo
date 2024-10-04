@@ -1,0 +1,103 @@
+{
+  "_links": {
+    "self": {
+      "href": "/pts/v2/payments/7279976545806030203954",
+      "method": "GET"
+    },
+    "capture": {
+      "href": "/pts/v2/payments/7279976545806030203954/captures",
+      "method": "POST"
+    }
+  },
+  "id": "7279976545806030203954",
+  "submitTimeUtc": "2024-10-03T23:20:55Z",
+  "status": "AUTHORIZED",
+  "reconciliationId": "05ROB1S2QAY1",
+  "clientReferenceInformation": {
+    "code": "fake-order_id"
+  },
+  "processorInformation": {
+    "approvalCode": "831000",
+    "transactionId": "016150703802094",
+    "networkTransactionId": "016150703802094",
+    "responseCode": "85",
+    "avs": {
+      "code": "Y",
+      "codeRaw": "Y"
+    },
+    "merchantNumber": "000000000123456"
+  },
+  "issuerInformation": {},
+  "paymentAccountInformation": {
+    "card": {
+      "type": "001"
+    }
+  },
+  "paymentInformation": {
+    "card": {
+      "type": "001"
+    },
+    "tokenizedCard": {
+      "type": "001"
+    },
+    "scheme": "VISA DEBIT",
+    "bin": "411111",
+    "accountType": "Visa Classic",
+    "issuer": "CONOTOXIA SP. Z O.O",
+    "binCountry": "PL"
+  },
+  "orderInformation": {
+    "amountDetails": {
+      "authorizedAmount": "0.00",
+      "currency": "USD"
+    }
+  },
+  "pointOfSaleInformation": {
+    "terminalId": "00123456"
+  },
+  "tokenInformation": {
+    "instrumentidentifierNew": false,
+    "paymentInstrument": {
+      "id": "239B7C3A645B94CDE063AF598E0AFCA3"
+    },
+    "instrumentIdentifier": {
+      "id": "7037870000055421111",
+      "state": "ACTIVE"
+    }
+  },
+  "riskInformation": {
+    "profile": {
+      "name": "Standard mid-market profile",
+      "selectorRule": "Default Active Profile"
+    },
+    "rules": [
+      {
+        "name": "Fraud Score - Monitor",
+        "decision": "IGNORE"
+      }
+    ],
+    "infoCodes": {
+      "address": [
+        "MM-BIN",
+        "UNV-ADDR"
+      ],
+      "internet": [
+        "FREE-EM"
+      ],
+      "suspicious": [
+        "INTL-BIN",
+        "RISK-GEO"
+      ]
+    },
+    "localTime": "16:20:54",
+    "score": {
+      "factorCodes": [
+        "B",
+        "G"
+      ],
+      "modelUsed": "default",
+      "result": "38"
+    }
+  },
+  "consumerAuthenticationInformation": {}
+}

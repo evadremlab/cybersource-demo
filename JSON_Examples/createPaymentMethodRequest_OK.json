@@ -1,0 +1,48 @@
+{
+  "clientReferenceInformation": {
+      "code": "TC50171_3"
+  },
+  "processingInformation": {
+      "capture": false,
+      "commerceIndicator": "internet",
+      "actionList": [
+          "TOKEN_CREATE"
+      ],
+      "actionTokenTypes": [
+          "paymentInstrument"
+      ]
+  },
+  "orderInformation": {
+      "billTo": {
+          "firstName": "David",
+          "lastName": "Balmer",
+          "address1": "100 Main Street",
+          "postalCode": "94501",
+          "locality": "Alameda",
+          "administrativeArea": "CA",
+          "country": "US",
+          "email": "david.b.balmer@gmail.com"
+      },
+      "amountDetails": {
+          "totalAmount": "0",
+          "currency": "USD"
+      }
+  },
+  "paymentInformation": {
+      "customer": {
+          "id": "{{tms-customer-id}}"
+      },
+      "card": {
+          "expirationYear": "2031",
+          "number": "5555555555554444",
+          "securityCode": "123",
+          "expirationMonth": "12",
+          "type": "002"
+      }
+  },
+  "tokenInformation": {
+      "paymentInstrument": {
+          "default": "false"
+      }
+  }
+}

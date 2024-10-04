@@ -1,0 +1,95 @@
+{
+  "_links": {
+    "self": {
+      "href": "/pts/v2/payments/7279883110176390503954",
+      "method": "GET"
+    }
+  },
+  "id": "7279883110176390503954",
+  "submitTimeUtc": "2024-10-03T20:45:12Z",
+  "status": "AUTHORIZED",
+  "reconciliationId": "79277094",
+  "clientReferenceInformation": {
+    "code": "and-again-yet-another-order-id"
+  },
+  "processorInformation": {
+    "authIndicator": "1",
+    "approvalCode": "831000",
+    "transactionId": "0602MCC603474",
+    "networkTransactionId": "0602MCC603474",
+    "responseCode": "00",
+    "avs": {
+      "code": "Y",
+      "codeRaw": "Y"
+    },
+    "merchantNumber": "000000000123456"
+  },
+  "issuerInformation": {},
+  "paymentAccountInformation": {
+    "card": {
+      "type": "002"
+    }
+  },
+  "paymentInformation": {
+    "card": {
+      "type": "002"
+    },
+    "tokenizedCard": {
+      "type": "002"
+    },
+    "paymentInstrument": {
+      "id": "238812209805C8ABE063AF598E0A2101"
+    },
+    "instrumentIdentifier": {
+      "id": "7031410000201134444",
+      "state": "ACTIVE"
+    },
+    "scheme": "MASTERCARD PREPAID",
+    "bin": "555555",
+    "accountType": "PREPAID",
+    "issuer": "CIAGROUP",
+    "binCountry": "BR"
+  },
+  "orderInformation": {
+    "amountDetails": {
+      "totalAmount": "123.45",
+      "authorizedAmount": "123.45",
+      "currency": "USD"
+    }
+  },
+  "pointOfSaleInformation": {
+    "terminalId": "00123456"
+  },
+  "riskInformation": {
+    "profile": {
+      "name": "Standard mid-market profile",
+      "selectorRule": "Default Active Profile"
+    },
+    "rules": [
+      {
+        "name": "Fraud Score - Monitor",
+        "decision": "IGNORE"
+      }
+    ],
+    "infoCodes": {
+      "address": [
+        "MM-BIN",
+        "UNV-ADDR"
+      ],
+      "suspicious": [
+        "INTL-BIN",
+        "RISK-GEO"
+      ]
+    },
+    "localTime": "13:45:11",
+    "score": {
+      "factorCodes": [
+        "B",
+        "G"
+      ],
+      "modelUsed": "default",
+      "result": "31"
+    }
+  },
+  "consumerAuthenticationInformation": {}
+}

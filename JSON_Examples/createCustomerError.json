@@ -1,0 +1,25 @@
+{
+  "id": "7279119005736818703955",
+  "submitTimeUtc": "2024-10-02T23:31:41Z",
+  "status": "INVALID_REQUEST",
+  "reason": "MISSING_FIELD",
+  "message": "Declined - The request is missing one or more fields",
+  "details": [
+    {
+      "field": "orderInformation.billTo.locality",
+      "reason": "MISSING_FIELD"
+    },
+    {
+      "field": "orderInformation.billTo.lastName",
+      "reason": "MISSING_FIELD"
+    },
+    {
+      "field": "orderInformation.billTo.address1",
+      "reason": "MISSING_FIELD"
+    },
+    {
+      "field": "orderInformation.billTo.country",
+      "reason": "MISSING_FIELD"
+    }
+  ]
+}

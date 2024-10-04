@@ -1,0 +1,85 @@
+{
+  "_links": {
+    "self": {
+      "href": "/pts/v2/payments/7278994390696091803954",
+      "method": "GET"
+    },
+    "capture": {
+      "href": "/pts/v2/payments/7278994390696091803954/captures",
+      "method": "POST"
+    }
+  },
+  "id": "7278994390696091803954",
+  "submitTimeUtc": "2024-10-02T20:04:00Z",
+  "status": "AUTHORIZED",
+  "reconciliationId": "ZSCIG1S2CL0W",
+  "clientReferenceInformation": {
+    "code": "test_flex_payment"
+  },
+  "processorInformation": {
+    "approvalCode": "831000",
+    "transactionId": "016150703802094",
+    "networkTransactionId": "016150703802094",
+    "responseCode": "00",
+    "avs": {
+      "code": "Y",
+      "codeRaw": "Y"
+    },
+    "merchantNumber": "000000000123456"
+  },
+  "issuerInformation": {},
+  "paymentInformation": {
+    "card": {},
+    "tokenizedCard": {
+      "type": "001"
+    }
+  },
+  "orderInformation": {
+    "amountDetails": {
+      "authorizedAmount": "102.21",
+      "currency": "USD"
+    }
+  },
+  "pointOfSaleInformation": {
+    "terminalId": "00123456"
+  },
+  "riskInformation": {
+    "profile": {
+      "name": "Standard mid-market profile",
+      "selectorRule": "Default Active Profile"
+    },
+    "rules": [
+      {
+        "name": "Fraud Score - Monitor",
+        "decision": "IGNORE"
+      }
+    ],
+    "infoCodes": {
+      "address": [
+        "MM-BIN",
+        "UNV-ADDR"
+      ],
+      "identityChange": [
+        "ID-M-POS",
+        "ID-X-HNEG",
+        "MORPH-E",
+        "MORPH-P"
+      ],
+      "suspicious": [
+        "INTL-BIN",
+        "RISK-GEO"
+      ]
+    },
+    "localTime": "16:03:59",
+    "score": {
+      "factorCodes": [
+        "B",
+        "G",
+        "P"
+      ],
+      "modelUsed": "default",
+      "result": "38"
+    }
+  },
+  "consumerAuthenticationInformation": {}
+}
