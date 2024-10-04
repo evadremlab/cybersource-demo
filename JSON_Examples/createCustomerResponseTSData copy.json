@@ -1,0 +1,17 @@
+{
+  "status": "AUTHORIZED",
+  "paymentAccountInformation": {
+  "tokenInformation": {
+    "instrumentidentifierNew": false,
+    "customer": {
+      "id": "23AC2720514EA950E063AF598E0AF5C1"
+    },
+    "paymentInstrument": {
+      "id": "23ABDDBBB5663C62E063AF598E0A07A9"
+    },
+    "instrumentIdentifier": {
+      "id": "7037870000055421111",
+      "state": "ACTIVE"
+    }
+  }
+}

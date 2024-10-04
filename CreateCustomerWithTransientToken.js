@@ -33,7 +33,8 @@ try {
         'customer',
         'paymentInstrument'
       ],
-      capture: false // auth only
+      capture: false, // auth only
+      commerceIndicator: 'internet' // Default value for authorizations and E-commerce orders placed from a website
     },
     clientReferenceInformation: {
       code: 'some-order-id'

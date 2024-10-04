@@ -1,0 +1,33 @@
+{
+  "req": {
+    "method": "post",
+    "url": "https://apitest.cybersource.com/pts/v2/payments",
+    "data": "{\"clientReferenceInformation\":{\"code\":\"new-customer-order_id\",\"partner\":{\"developerId\":\"N2RC3Q4K\"}},\"processingInformation\":{\"actionList\":[\"TOKEN_CREATE\"],\"actionTokenTypes\":[\"customer\",\"paymentInstrument\"],\"capture\":false,\"commerceIndicator\":\"internet\"},\"orderInformation\":{\"amountDetails\":{\"totalAmount\":\"0\",\"currency\":\"USD\"},\"billTo\":{\"firstName\":\"David\",\"lastName\":\"Balmer\",\"address1\":\"3355 Geary Blvd.\",\"locality\":\"San Francisco\",\"administrativeArea\":\"CA\",\"postalCode\":\"94118\",\"country\":\"US\",\"email\":\"david.balmer@transsight.com\"}},\"tokenInformation\":{\"transientTokenJwt\":\"eyJraWQiOiIwOG1sVXExVGVDUmwxOVpndG1KRXFBUGM4bld5MHQzdSIsImFsZyI6IlJTMjU2In0.eyJpc3MiOiJGbGV4LzA3IiwiZXhwIjoxNzI4MDY4ODc5LCJ0eXBlIjoibWYtMi4wLjAiLCJpYXQiOjE3MjgwNjc5NzksImp0aSI6IjFFMzZFOFVNRTg0MDNRWDUzMllOS1ZPNTZRWlE2SlpWNDZXU05GTElFU0M3UzBYSFVISkM2NzAwM0QwRjUyM0EiLCJjb250ZW50Ijp7InBheW1lbnRJbmZvcm1hdGlvbiI6eyJjYXJkIjp7ImV4cGlyYXRpb25ZZWFyIjp7InZhbHVlIjoiMjAyNCJ9LCJudW1iZXIiOnsibWFza2VkVmFsdWUiOiJYWFhYWFhYWFhYWFgxMTExIiwiYmluIjoiNDExMTExIn0sInNlY3VyaXR5Q29kZSI6e30sImV4cGlyYXRpb25Nb250aCI6eyJ2YWx1ZSI6IjEyIn0sInR5cGUiOnsidmFsdWUiOiIwMDEifX19fX0.JEBQv4WmTUSFm2RNAnuvMkdFOwb0hWXfgEMYawQhUzifnvRJESF5QWv1F0QYCA4JrXKSWqh5NW6Ks9g7vVjTIsMPByF8UAIkUFC5H6FMC2BHeJ7ffiJHeQ2Lr7CwMr4BJf90FDOTCO9mdkJ92p4Zd38UnhjwTOn09vAgSTRUdEaCHidYM54yPv2Kbg8Bf2dTLP-GAuPfDAf8t7xiumRwBqyq7PpogrZH1iRhYLMibkMl-K0NIpqbToUiy1mzsP9mxifMZ1w17LzFF0fO8uV6qmgWauR1UhsK-6gIWIrZ5gTs6PBBDw3Y4BZR1o7zQnbUOx_kWIa8LXONugaDxaULrg\",\"paymentInstrument\":{\"default\":true}}}",
+    "headers": {
+      "Accept": "application/hal+json;charset=utf-8",
+      "Content-Type": "application/json",
+      "digest": "SHA-256=LIBwQt3OA3aaf7/0xkL0bLEA3A3mzUS772EJxMPPgfM=",
+      "v-c-merchant-id": "transsightdev_1718140723",
+      "date": "Fri, 04 Oct 2024 18:53:26 GMT",
+      "host": "apitest.cybersource.com",
+      "signature": "keyid=\"ad81163c-aa36-471d-be21-9ac7c7ebbe99\", algorithm=\"HmacSHA256\", headers=\"host date request-target digest v-c-merchant-id\", signature=\"Z/NoKXnIXvtwXpSYFEf3yX1YwuzffHCTFnzKM3Zuei0=\"",
+      "User-Agent": "Mozilla/5.0",
+      "Content-Length": "1508",
+      "Accept-Encoding": "gzip, compress, deflate, br"
+    }
+  },
+  "header": {
+    "cache-control": "no-cache, no-store, must-revalidate",
+    "pragma": "no-cache",
+    "expires": "-1",
+    "strict-transport-security": "max-age=31536000",
+    "content-type": "application/hal+json",
+    "content-length": "2083",
+    "x-response-time": "1240ms",
+    "x-opnet-transaction-trace": "3763cd00-9406-4b91-bc0d-fab6078f494c",
+    "v-c-correlation-id": "8d8f06cf-e201-4ebe-892c-56df69ffea36",
+    "connection": "close"
+  },
+  "status": 201,
+  "text": "{\"_links\":{\"authReversal\":{\"method\":\"POST\",\"href\":\"/pts/v2/payments/7280680069946534203954/reversals\"},\"self\":{\"method\":\"GET\",\"href\":\"/pts/v2/payments/7280680069946534203954\"},\"capture\":{\"method\":\"POST\",\"href\":\"/pts/v2/payments/7280680069946534203954/captures\"}},\"clientReferenceInformation\":{\"code\":\"new-customer-order_id\",\"partner\":{\"developerId\":\"N2RC3Q4K\"}},\"consumerAuthenticationInformation\":{\"token\":\"Axj/7wSTiq+7rOuNVxIyABsZabxILVjTY02dKwnvxSjd9oCnvxSjd9ukAELaGTSTL0YwqvjYE5OKr7us641XEjIAYR9G\"},\"id\":\"7280680069946534203954\",\"issuerInformation\":{\"responseRaw\":\"0110322000000E10000200000000000000000010041853271137865A374441353153315333525838333130303038350001590048002231345730313631353037303338303230393447303634001432324156532041434345505445440006564943524320\"},\"orderInformation\":{\"amountDetails\":{\"authorizedAmount\":\"0.00\",\"currency\":\"USD\"}},\"paymentAccountInformation\":{\"card\":{\"type\":\"001\"}},\"paymentInformation\":{\"tokenizedCard\":{\"type\":\"001\"},\"scheme\":\"VISA DEBIT\",\"bin\":\"411111\",\"accountType\":\"Visa Classic\",\"issuer\":\"CONOTOXIA SP. Z O.O\",\"card\":{\"type\":\"001\"},\"binCountry\":\"PL\"},\"pointOfSaleInformation\":{\"terminalId\":\"00123456\"},\"processorInformation\":{\"merchantNumber\":\"000000000123456\",\"approvalCode\":\"831000\",\"networkTransactionId\":\"016150703802094\",\"transactionId\":\"016150703802094\",\"responseCode\":\"85\",\"avs\":{\"code\":\"Y\",\"codeRaw\":\"Y\"}},\"reconciliationId\":\"Z7DA51S1S3RX\",\"riskInformation\":{\"localTime\":\"11:53:27\",\"score\":{\"result\":\"34\",\"factorCodes\":[\"B\",\"G\"],\"modelUsed\":\"default\"},\"infoCodes\":{\"address\":[\"MM-BIN\"],\"suspicious\":[\"INTL-BIN\",\"RISK-GEO\"]},\"profile\":{\"earlyDecision\":\"ACCEPT\",\"name\":\"Standard mid-market profile\",\"selectorRule\":\"Default Active Profile\"},\"rules\":[{\"decision\":\"IGNORE\",\"name\":\"Fraud Score - Monitor\",\"executionTiming\":\"PRE_AUTH\"}]},\"status\":\"AUTHORIZED\",\"submitTimeUtc\":\"2024-10-04T18:53:28Z\",\"tokenInformation\":{\"instrumentidentifierNew\":false,\"instrumentIdentifier\":{\"state\":\"ACTIVE\",\"id\":\"7037870000055421111\"},\"paymentInstrument\":{\"id\":\"23ABDDBBB5663C62E063AF598E0A07A9\"},\"customer\":{\"id\":\"23AC2720514EA950E063AF598E0AF5C1\"}}}"
+}

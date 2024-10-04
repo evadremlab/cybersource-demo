@@ -8,7 +8,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var cybersourceRestApi = require('cybersource-rest-client');
-const { generateCaptureContext } = require('./modules');
+const { generateCaptureContext } = require('./modules/cybersource');
 
 var configObj = {
   authenticationType: 'http_signature',

@@ -1,0 +1,102 @@
+{
+  "_links": {
+    "self": {
+      "href": "/pts/v2/payments/7280680069946534203954",
+      "method": "GET"
+    },
+    "capture": {
+      "href": "/pts/v2/payments/7280680069946534203954/captures",
+      "method": "POST"
+    }
+  },
+  "id": "7280680069946534203954",
+  "submitTimeUtc": "2024-10-04T18:53:28Z",
+  "status": "AUTHORIZED",
+  "reconciliationId": "Z7DA51S1S3RX",
+  "clientReferenceInformation": {
+    "code": "new-customer-order_id"
+  },
+  "processorInformation": {
+    "approvalCode": "831000",
+    "transactionId": "016150703802094",
+    "networkTransactionId": "016150703802094",
+    "responseCode": "85",
+    "avs": {
+      "code": "Y",
+      "codeRaw": "Y"
+    },
+    "merchantNumber": "000000000123456"
+  },
+  "issuerInformation": {},
+  "paymentAccountInformation": {
+    "card": {
+      "type": "001"
+    }
+  },
+  "paymentInformation": {
+    "card": {
+      "type": "001"
+    },
+    "tokenizedCard": {
+      "type": "001"
+    },
+    "scheme": "VISA DEBIT",
+    "bin": "411111",
+    "accountType": "Visa Classic",
+    "issuer": "CONOTOXIA SP. Z O.O",
+    "binCountry": "PL"
+  },
+  "orderInformation": {
+    "amountDetails": {
+      "authorizedAmount": "0.00",
+      "currency": "USD"
+    }
+  },
+  "pointOfSaleInformation": {
+    "terminalId": "00123456"
+  },
+  "tokenInformation": {
+    "instrumentidentifierNew": false,
+    "customer": {
+      "id": "23AC2720514EA950E063AF598E0AF5C1"
+    },
+    "paymentInstrument": {
+      "id": "23ABDDBBB5663C62E063AF598E0A07A9"
+    },
+    "instrumentIdentifier": {
+      "id": "7037870000055421111",
+      "state": "ACTIVE"
+    }
+  },
+  "riskInformation": {
+    "profile": {
+      "name": "Standard mid-market profile",
+      "selectorRule": "Default Active Profile"
+    },
+    "rules": [
+      {
+        "name": "Fraud Score - Monitor",
+        "decision": "IGNORE"
+      }
+    ],
+    "infoCodes": {
+      "address": [
+        "MM-BIN"
+      ],
+      "suspicious": [
+        "INTL-BIN",
+        "RISK-GEO"
+      ]
+    },
+    "localTime": "11:53:27",
+    "score": {
+      "factorCodes": [
+        "B",
+        "G"
+      ],
+      "modelUsed": "default",
+      "result": "34"
+    }
+  },
+  "consumerAuthenticationInformation": {}
+}

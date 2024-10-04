@@ -1,0 +1,91 @@
+{
+  "_links": {
+    "self": {
+      "href": "/tms/v2/customers/23AC2720514EA950E063AF598E0AF5C1/payment-instruments?offset=0&limit=20"
+    },
+    "first": {
+      "href": "/tms/v2/customers/23AC2720514EA950E063AF598E0AF5C1/payment-instruments?offset=0&limit=20"
+    },
+    "last": {
+      "href": "/tms/v2/customers/23AC2720514EA950E063AF598E0AF5C1/payment-instruments?offset=0&limit=20"
+    }
+  },
+  "offset": 0,
+  "limit": 20,
+  "count": 1,
+  "total": 1,
+  "_embedded": {
+    "paymentInstruments": [
+      {
+        "_links": {
+          "self": {
+            "href": "/tms/v2/customers/23AC2720514EA950E063AF598E0AF5C1/payment-instruments/23ABDDBBB5663C62E063AF598E0A07A9"
+          },
+          "customer": {
+            "href": "/tms/v2/customers/23AC2720514EA950E063AF598E0AF5C1"
+          }
+        },
+        "id": "23ABDDBBB5663C62E063AF598E0A07A9",
+        "default": true,
+        "state": "ACTIVE",
+        "card": {
+          "expirationMonth": "12",
+          "expirationYear": "2024",
+          "type": "001"
+        },
+        "buyerInformation": {
+          "currency": "USD"
+        },
+        "billTo": {
+          "firstName": "DAVID",
+          "lastName": "BALMER",
+          "address1": "3355 Geary Blvd.",
+          "locality": "San Francisco",
+          "administrativeArea": "CA",
+          "postalCode": "94118",
+          "country": "US",
+          "email": "david.balmer@transsight.com"
+        },
+        "processingInformation": {
+          "billPaymentProgramEnabled": false
+        },
+        "instrumentIdentifier": {
+          "id": "7037870000055421111"
+        },
+        "metadata": {
+          "creator": "transsightdev_1718140723"
+        },
+        "_embedded": {
+          "instrumentIdentifier": {
+            "_links": {
+              "self": {
+                "href": "/tms/v1/instrumentidentifiers/7037870000055421111"
+              },
+              "paymentInstruments": {
+                "href": "/tms/v1/instrumentidentifiers/7037870000055421111/paymentinstruments"
+              }
+            },
+            "id": "7037870000055421111",
+            "object": "instrumentIdentifier",
+            "state": "ACTIVE",
+            "card": {
+              "number": "411111XXXXXX1111"
+            },
+            "processingInformation": {
+              "authorizationOptions": {
+                "initiator": {
+                  "merchantInitiatedTransaction": {
+                    "previousTransactionId": "016150703802094"
+                  }
+                }
+              }
+            },
+            "metadata": {
+              "creator": "transsightdev_1718140723"
+            }
+          }
+        }
+      }
+    ]
+  }
+}

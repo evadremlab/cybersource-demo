@@ -10,7 +10,7 @@ const PemFileDirectory = 'Resource/NetworkTokenCert.pem';
 
 module.exports = {
   authenticationType: 'http_signature',
-  runEnvironment: 'apitest.cybersource.com', // 'cybersource.environment.SANDBOX',
+  runEnvironment: 'apitest.cybersource.com',
 
   merchantID: 'transsightdev_1718140723',
   merchantKeyId: 'ad81163c-aa36-471d-be21-9ac7c7ebbe99',
@@ -22,7 +22,7 @@ module.exports = {
   // keyFileName: 'transsightdev_1718140723',
   // keysDirectory: 'Resource',
 
-  useMetaKey: false,
+  useMetaKey: false, // TODO: what is this?
   portfolioID: '', // TODO: what is this?
   // pemFileDirectory: PemFileDirectory,
 
