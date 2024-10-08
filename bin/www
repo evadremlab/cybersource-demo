@@ -86,4 +86,5 @@ function onListening() {
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   console.log(`Start with http://localhost:${addr.port}/checkout`);
+  // console.log(`or http://localhost:${addr.port}/unifiedCheckout`);
 }

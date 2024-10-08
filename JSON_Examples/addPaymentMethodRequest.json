@@ -1,0 +1,42 @@
+{
+  "clientReferenceInformation": {
+    "code": "another-fake-order_id"
+  },
+  "processingInformation": {
+    "actionList": [
+      "TOKEN_CREATE"
+    ],
+    "actionTokenTypes": [
+      "paymentInstrument"
+    ],
+    "capture": false,
+    "commerceIndicator": "internet"
+  },
+  "paymentInformation": {
+    "customer": {
+      "id": "23AC2720514EA950E063AF598E0AF5C1"
+    }
+  },
+  "orderInformation": {
+    "amountDetails": {
+      "totalAmount": "0",
+      "currency": "USD"
+    },
+    "billTo": {
+      "email": "david.balmer@transsight.com",
+      "firstName": "David",
+      "lastName": "Balmer",
+      "address1": "3355 Geary Blvd.",
+      "locality": "San Francisco",
+      "country": "US",
+      "administrativeArea": "CA",
+      "postalCode": 94118
+    }
+  },
+  "tokenInformation": {
+    "transientTokenJwt": "eyJraWQiOiIwOEI2ME9XdkR0ZDl6akp0OXNlNUo3RGxRWFRIMHlzMiIsImFsZyI6IlJTMjU2In0.eyJpc3MiOiJGbGV4LzA3IiwiZXhwIjoxNzI4MzI5MzM5LCJ0eXBlIjoibWYtMi4wLjAiLCJpYXQiOjE3MjgzMjg0NDAsImp0aSI6IjFFNVQzOUpGN0VNVVY3TzBJNFhHUzRLNDlQMkJHM0Q5UjJXQTdYV1YwMEpGUEdKTzAwUEc2NzA0MzY3QjhGMzEiLCJjb250ZW50Ijp7InBheW1lbnRJbmZvcm1hdGlvbiI6eyJjYXJkIjp7ImV4cGlyYXRpb25ZZWFyIjp7InZhbHVlIjoiMjAyNCJ9LCJudW1iZXIiOnsibWFza2VkVmFsdWUiOiJYWFhYWFhYWFhYWFg0NDQ0IiwiYmluIjoiNTU1NTU1In0sInNlY3VyaXR5Q29kZSI6e30sImV4cGlyYXRpb25Nb250aCI6eyJ2YWx1ZSI6IjEyIn0sInR5cGUiOnsidmFsdWUiOiIwMDIifX19fX0.f869NH5Ikb96QEZwVcphrgOmD3hpNnI0-9upmI7vxSVuWaJuo92rgh7pl4xJK3Y41Q6mgYzjD2en8f6FlXpkreJhevwx0GHm_V6KSCiAiYE7CH38eGntBh3EyEHkfAKMQyDlxgd5q1f5SuQycXInGUyevueiVmfQ5xBplVnihFoZknUYWM6yq3EwlF9gXD6yQn7I6fd26lcVcD2Wy1w_w4wTPvIfB-0qQUUJV6jOj-RNd_gn4WCS7xECxeQtdn5Da8K1Ns-sbmhrwXNAlk9lcsR86tbKKAf_jtQNNvtG5t4oxGTh_BJ8vSGYLfFz6JvKGEKUJbI_MXOxwaArkSsAcw",
+    "paymentInstrument": {
+      "default": false
+    }
+  }
+}

@@ -1,6 +1,6 @@
 async function testGenerateCaptureContext() {
   try {
-    const { generateCaptureContext } = require('./modules/cybersource');
+    const { generateCaptureContext } = require('./modules/cybersource-provider');
     const result = await generateCaptureContext();
     console.log(result);
   } catch (err) {
@@ -8,17 +8,17 @@ async function testGenerateCaptureContext() {
   }
 }
 
-async function testCreateCustomer() {
+async function testCreateCustomer(transientTokenJwt) {
   try {
-    const { createCustomer } = require('./modules/cybersource');
+    const { createCustomer } = require('./modules/cybersource-provider');
     const result = await createCustomer({
-      transientTokenJwt: '', // get from UI
+      transientTokenJwt,
       order_id: 'new-customer-order_id',
-      billTo: {
+      billTo: { // all are required
         email: 'david.balmer@transsight.com',
-        firstName: 'David',
-        lastName: 'Balmer',
-        address1: '3355 Geary Blvd.',
+        firstName: 'David', // This name must be the same as the name on the card
+        lastName: 'Balmer', // This name must be the same as the name on the card
+        address1: '3355 Geary Blvd.', // billing street address as it appears on the credit card issuer’s records
         locality: 'San Francisco', // city
         country: 'US', // two character ISO code
         administrativeArea: 'CA', // state code
@@ -31,14 +31,14 @@ async function testCreateCustomer() {
   }
 }
 
-async function testAddPaymentMethod() {
+async function testAddPaymentMethod(transientTokenJwt) {
   try {
-    const { addPaymentMethod } = require('./modules/cybersource');
+    const { addPaymentMethod } = require('./modules/cybersource-provider');
     const result = await addPaymentMethod({
       customerTokenId: '23AC2720514EA950E063AF598E0AF5C1',
-      transientTokenJwt: '', // get from UI
+      transientTokenJwt,
       order_id: 'another-fake-order_id',
-      billTo: {
+      billTo: { // all are required
         email: 'david.balmer@transsight.com',
         firstName: 'David',
         lastName: 'Balmer',
@@ -57,7 +57,7 @@ async function testAddPaymentMethod() {
 
 function testDecodeJWT(token) {
   try {
-    const { decodeJWT } = require('./modules/cybersource');
+    const { decodeJWT } = require('./modules/cybersource-provider');
     console.log(decodeJWT(token));
   } catch (err) {
     console.error(err);
@@ -66,7 +66,7 @@ function testDecodeJWT(token) {
 
 async function testValidateCaptureContext(token) {
   try {
-    const { validateCaptureContext } = require('./modules/cybersource');
+    const { validateCaptureContext } = require('./modules/cybersource-provider');
     const result = await validateCaptureContext(token);
     console.log(result);
   } catch (err) {
@@ -76,7 +76,7 @@ async function testValidateCaptureContext(token) {
 
 async function testValidateTransientToken(token) {
   try {
-    const { validateTransientToken } = require('./modules/cybersource');
+    const { validateTransientToken } = require('./modules/cybersource-provider');
     const result = await validateTransientToken(token);
     console.log(result);
   } catch (err) {
@@ -84,9 +84,8 @@ async function testValidateTransientToken(token) {
   }
 }
 
-// testCreateCustomer();
-const captureContext = 'eyJraWQiOiJ6dSIsImFsZyI6IlJTMjU2In0.eyJmbHgiOnsicGF0aCI6Ii9mbGV4L3YyL3Rva2VucyIsImRhdGEiOiJLeFdYMUtNTnBJdDY4S1hra2pNd05CQUFFS2R2OGVFQTJwMnFwK2txckl4dVZlamhPZlU5ODAwQ2ZVMXBpVXY0TTNyM2hsa3kwN2QwTkdsZ1lUSUJ6d0tMank3dGtZdnZmeDR1TExBaFYreWFCRGpoR2FuMjUwZjB0MVdiVldIYi9lQktlTnJMSHFGblhkQThUMXpPN0ZucEd3XHUwMDNkXHUwMDNkIiwib3JpZ2luIjoiaHR0cHM6Ly90ZXN0ZmxleC5jeWJlcnNvdXJjZS5jb20iLCJqd2siOnsia3R5IjoiUlNBIiwiZSI6IkFRQUIiLCJ1c2UiOiJlbmMiLCJuIjoicFJzV25FaU9wUUw0bWNkbmZ5U2Z6QUg3Z3V3X1RpRThwRjNKMTd1cWpWZ1c1anN3a2tldFdQRGJzdFh1aWJCYmZlbDc2TVNBM2dQV09acy1CZm85cXFCdjI0d2RQQ0lEc083VWtEajlOd2c5WGM4ZmpvNEdZRWJwcktfZy14OWhJVW92MWZJSkNOZzl4MUJocW1sS0c1VXFVZTlMelJOS1pSajE4YWpTSl9qMjhCTWlyMTBuYkE1Y0lINmQ3U1lsV0RzSzdnMW5VdTQtQXlpSkZmMC1iTkZ0V3BvSENFMmZpSW9ialg3MFJtYkE2OG5FWDJGdEZfUjlKNGw4dlRkcUJ3anptd1JFU0F2TDN6c3hXM2xiZkhxYmxGRVhGOHR5Q0UtZ3ZnWXQydHlJTjMxN3hrNU9Eb3pHSWE5b3NrWEJNeEY1SUNwb2RQX1pzb3VKdkF5WHJ3Iiwia2lkIjoiMDg1VDRsMkVwdlR4dzVmaGJJdm9HdDhUWnF1cjhISWYifX0sImN0eCI6W3siZGF0YSI6eyJjbGllbnRMaWJyYXJ5IjoiaHR0cHM6Ly90ZXN0ZmxleC5jeWJlcnNvdXJjZS5jb20vbWljcm9mb3JtL2J1bmRsZS92Mi4wL2ZsZXgtbWljcm9mb3JtLm1pbi5qcyIsImFsbG93ZWRDYXJkTmV0d29ya3MiOlsiVklTQSIsIk1BU1RFUkNBUkQiLCJBTUVYIiwiRElTQ09WRVIiXSwidGFyZ2V0T3JpZ2lucyI6WyJodHRwOi8vbG9jYWxob3N0OjMwMDAiXSwibWZPcmlnaW4iOiJodHRwczovL3Rlc3RmbGV4LmN5YmVyc291cmNlLmNvbSJ9LCJ0eXBlIjoibWYtMi4wLjAifV0sImlzcyI6IkZsZXggQVBJIiwiZXhwIjoxNzI4MDg2MzUxLCJpYXQiOjE3MjgwODU0NTEsImp0aSI6ImljSk5HNnhxMVlCeTVMYzMifQ.AsLoElOVwKZ7uaEwhkiM9v-J0GxX4bBBTwkipTwibPsSSbsYMGHHVsi30ztCmVC8ByexVWwQrLPPVShbNlpfyv8h9Ln1xlP7t8Wugr6LAumCgLnYP_x4sQYnS4SsywJxJmJTOm0-LY68AOYzfCy47ZX9oi9DVVz4kD5sqdOsBDjHQ8Z-UfgNl_r2TVQdV8BhYApxHJlrhUFmBYJAWJLQOLiO9iOyqZv559ttjYb5pHJMw9qhwmEtrrUPmh8qF063-N8orw23p9nSBI0xKQWLZDd2ykk1d4Jz8os9IZhVWZn8JlmOFraSEKtfschmlREEtfhLbsuUZulBbNNyUR95kw';
-testValidateCaptureContext(captureContext);
-
-// const transientToken = 'eyJraWQiOiIwOGJuZnhnWFhSMGVyWWZoYU56bXNJV3dLcTd2b2cyaSIsImFsZyI6IlJTMjU2In0.eyJpc3MiOiJGbGV4LzA3IiwiZXhwIjoxNzI4MDg0Nzk0LCJ0eXBlIjoibWYtMi4wLjAiLCJpYXQiOjE3MjgwODM4OTQsImp0aSI6IjFFM04yQTRLN1E1N0RIMTdXQzZYQTRCQ1BQTkU2SlU4VVNaOVBITlVPRkQ5SzJKNVNVT1Q2NzAwN0IzQTQzMEMiLCJjb250ZW50Ijp7InBheW1lbnRJbmZvcm1hdGlvbiI6eyJjYXJkIjp7ImV4cGlyYXRpb25ZZWFyIjp7InZhbHVlIjoiMjAyNCJ9LCJudW1iZXIiOnsibWFza2VkVmFsdWUiOiJYWFhYWFhYWFhYWFg0NDQ0IiwiYmluIjoiNTU1NTU1In0sInNlY3VyaXR5Q29kZSI6e30sImV4cGlyYXRpb25Nb250aCI6eyJ2YWx1ZSI6IjEyIn0sInR5cGUiOnsidmFsdWUiOiIwMDIifX19fX0.jHop82IYDpdKwl8xEqcd3oihxFYz0lmTtmwq_BVdLQyGl1OVfSmfcZIRCCn60MfqeW0QTIF90o_CwW8pTn2OwIS74A6JsyovUQ6lPo9pmwgUswbOvpTUvM9NjBg7nikcr0wOlWQIKEoxTbcIY-217NFAZz6Wj7UVQBI6R13Ummh8r5ud_fKBzundmw5qyQzZWvPmKVQvwi94aQM7Ub1GjnG0_rB-W3OrU1jWBA0Fqyz1BDSl0tATacrsXE_xY0BAoIjYq-3h4xDb0jh6n5zNB7hQOeW9D7vHmChZFLfCm9OBtZJs_gDTJzkW045tLM7MNdSEw6-YFXTNnypwIpdIrw';
-// testValidateTransientToken(transientToken);
+let captureContextJwt = 'eyJraWQiOiJ6dSIsImFsZyI6IlJTMjU2In0.eyJmbHgiOnsicGF0aCI6Ii9mbGV4L3YyL3Rva2VucyIsImRhdGEiOiJzME1JbzJLRFpObFV4YXlhek1FN3d4QUFFRk1SaHV5V2t6MkQ2a2xNdlVoUjhUTVNqTEZqbFdVMG1YVkkvRUZtMVNTc1QvZXBwbHN6aU9EYjNFYkdHTXZhdm1xdXl1SzFiZTFGMkErbFhNNjlUaGIyNnZyZVJZaGJuK01HODBGQnpMSTBrUjFraFI2NVAvUCthd09pWXFmWDZBXHUwMDNkXHUwMDNkIiwib3JpZ2luIjoiaHR0cHM6Ly90ZXN0ZmxleC5jeWJlcnNvdXJjZS5jb20iLCJqd2siOnsia3R5IjoiUlNBIiwiZSI6IkFRQUIiLCJ1c2UiOiJlbmMiLCJuIjoib2NCYnpOZ2k3dUMtTTdDZWJvSDNJUVZGOWtRWUFPQ21MQ25kbmdqa3VMS1FqdkF5THczb1UyXzBka2puREgxMHpQWjc2NWRMbzI0bU5XRWpnTDNnUVAybUhOMTlxalFqTHYxU3lSaHNGRFptUEFnRWtaNDZEZnI1cEZPNGwyR1dpSFNIWDIzMW5KZ3JrR1lsTHdOaVNidXNfbXlsMmZxQ0hqYV91VF9wMURXUmk4eE5YNUpVX3p1TzJ4NHZMdFcxck40aHZRSDhJcWJCanFPWnYtX1pmc0lMT1c1R0NxaDExRGNtczNuT0dhbzhVQ0FvRHhsbXh3SzlLV1daTzRWMU4tbWhIeERHUW1XcnRkUFVWSXluVXJwcjhzUWdwTmJLOWNqNEMweVI4cVNObnlmMi16dUprZ1JvMzV3ZGFHOFAyeEpFaU5tRDltdTZUZ0J4bWtvVTRRIiwia2lkIjoiMDhVUjNYZ2NrQkg2dFNvTmdTQllIeWNXY3RBN2JPOVQifX0sImN0eCI6W3siZGF0YSI6eyJjbGllbnRMaWJyYXJ5IjoiaHR0cHM6Ly90ZXN0ZmxleC5jeWJlcnNvdXJjZS5jb20vbWljcm9mb3JtL2J1bmRsZS92Mi4wL2ZsZXgtbWljcm9mb3JtLm1pbi5qcyIsImFsbG93ZWRDYXJkTmV0d29ya3MiOlsiVklTQSIsIk1BU1RFUkNBUkQiLCJBTUVYIiwiRElTQ09WRVIiXSwidGFyZ2V0T3JpZ2lucyI6WyJodHRwOi8vbG9jYWxob3N0OjMwMDAiXSwibWZPcmlnaW4iOiJodHRwczovL3Rlc3RmbGV4LmN5YmVyc291cmNlLmNvbSJ9LCJ0eXBlIjoibWYtMi4wLjAifV0sImlzcyI6IkZsZXggQVBJIiwiZXhwIjoxNzI4NDE3MTkyLCJpYXQiOjE3Mjg0MTYyOTIsImp0aSI6IjM3YW9NSm9zR3ZrWmdDQk8ifQ.nDdnr6qUKrzqZXJoFdY3knNU55B8xOQeU-2WvbWihKaH5h5px_C4H0xmD2m7fL0gGux8v1-qLBDxHVg8kYy6b-D49zVCeJ2BhUbBlnHZ2JI2PHKhUgFQeAoo7HZmWNjZ_WD2rpxiMH9f9U5bU_tdfnsDC08aQsixjyhkl4RHJIAujVxfofyv5SNyvHQf4J_Foljy5DrHr4mRVWWcsXZv3DNtYmGxbKF_l5rZL8Syj-y9FzDe9UEjulJgd-CLR7HpOMO7v2I8sx0Ee_z3rtDCXCU9HvzJ3xLqzE1tVVq2NIYLXPSpD4Ghw1Wg3X3sZameT60K1jGAofHx3vvbEzlbrg';
+testValidateCaptureContext(captureContextJwt);
+// let transientTokenJwt = 'eyJraWQiOiIwOFRxSkhzeHFzU1dlWDAzM3pWa2FPS1hCVTMwaXRTUiIsImFsZyI6IlJTMjU2In0.eyJpc3MiOiJGbGV4LzA3IiwiZXhwIjoxNzI4NDEzMzk4LCJ0eXBlIjoibWYtMi4wLjAiLCJpYXQiOjE3Mjg0MTI0OTgsImp0aSI6IjFFMzI3WlNZSTJWNklUMFhQU1gxMzg4RjNVVFc3REhYR1paNEE4SVhYNjVHVFM1WVExUEg2NzA1N0VENjZGNUQiLCJjb250ZW50Ijp7InBheW1lbnRJbmZvcm1hdGlvbiI6eyJjYXJkIjp7ImV4cGlyYXRpb25ZZWFyIjp7InZhbHVlIjoiMjAyNCJ9LCJudW1iZXIiOnsiZGV0ZWN0ZWRDYXJkVHlwZXMiOlsiMDAyIl0sIm1hc2tlZFZhbHVlIjoiWFhYWFhYWFhYWFhYNDQ0NCIsImJpbiI6IjU1NTU1NSJ9LCJzZWN1cml0eUNvZGUiOnt9LCJleHBpcmF0aW9uTW9udGgiOnsidmFsdWUiOiIxMiJ9fX19fQ.PFfa78luxmsKzmno1eRfu0Q3zLux_jBuVXzDqBz-o2Uf75AVFX4y1f_87JQyb60BXfZqDhsN1mx6Rnn62nopK9E-1u4qteF_4PjZSK4q2qta6Wtzc1LmJLmSH5r6O__MEUh96Xf2MVk3rp7qNMY22nmtBs2huDHw_9zg3XXHlnf-dZ7QyMwBuf1unFxxuUXMbfzDCz7wusZRlPnv1F4-ptIR7PfP3qc4NCBn78O3-gfY4qe8RGlWsqKnJw5fCsjr_qqoqNMfvFfg6dSaZhRg43ZaIrnQBBTzcE5SyfFAtKs0etz9NJtEQ0uh0pb2lbcDOttVA24LGBpnEAgAu7dDBw';
+// testValidateTransientToken(transientTokenJwt);
+// testAddPaymentMethod(transientTokenJwt);

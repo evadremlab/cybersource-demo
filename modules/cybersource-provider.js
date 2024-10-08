@@ -5,19 +5,21 @@ const path = require('path');
 const axios = require('axios');
 const jwt = require('jsonwebtoken');
 var jwkToPem = require('jwk-to-pem');
-const cyberSourceConfig = require(path.resolve('config/CyberSource.js'));
+const cyberSourceConfig = require(path.resolve('config/cybersource-config.js'));
 
 const {
   ApiClient,
   PaymentsApi,
   MicroformIntegrationApi,
+  UnifiedCheckoutCaptureContextApi,
   CreatePaymentRequest,
-  GenerateCaptureContextRequest
+  GenerateCaptureContextRequest,
+  GenerateUnifiedCheckoutCaptureContextRequest
 } = require('cybersource-rest-client');
 
 /**
  * Decode JWT into header and payload.
- * We need the header.kid to validate the token integrity (below).
+ * We need the header.kid to validate token integrity (below).
  */
 function decodeJWT(token) {
   const parts = token.split('.');
@@ -41,11 +43,11 @@ async function validateTokenIntegrity(token) {
       const decodedToken = decodeJWT(token);
       axios.get(`https://${cyberSourceConfig.runEnvironment}/flex/v2/public-keys/${decodedToken.header.kid}`).then(response => {
         const pem = jwkToPem(response.data);
-        jwt.verify(token, pem, (err, data) => {
+        jwt.verify(token, pem, (err, decoded) => {
           if (err) {
             reject(err);
           } else {
-            resolve(data);
+            resolve(decoded);
           }
         });
       }).catch(err => { // getting jwk
@@ -58,7 +60,7 @@ async function validateTokenIntegrity(token) {
 }
 
 /**
- * Generate capture context required to render drop-in UI and tokenize the data.
+ * Generate capture context required to render microform UI and tokenize the data.
  */
 async function generateCaptureContext() {
   const methodID = 'generateCaptureContext';
@@ -72,7 +74,7 @@ async function generateCaptureContext() {
       targetOrigins: ['http://localhost:3000'],
       allowedCardNetworks: ['VISA', 'MASTERCARD', 'AMEX', 'DISCOVER']
     });
-  
+
     instance.generateCaptureContext(requestData, (err, data, response) => {
       if (response) {
         console.log(`\n *** ${methodID} Response ***\n`, JSON.stringify(response));
@@ -89,7 +91,58 @@ async function generateCaptureContext() {
 }
 
 /**
- * Create customer and their default payment method.
+ * Generate capture context required to render unified checkout UI and tokenize the data (NOT WORKING).
+ */
+async function generateUnifiedCheckoutCaptureContext() {
+  const methodID = 'generateUnifiedCheckoutCaptureContext';
+
+  return new Promise((resolve, reject) => {
+    const apiClient = new ApiClient();
+    const instance = new UnifiedCheckoutCaptureContextApi(cyberSourceConfig, apiClient);
+
+    // https://developer.cybersource.com/docs/cybs/en-us/digital-accept-flex/developer/all/rest/digital-accept-flex/uc-intro/uc-getting-started-ss-setup.html
+    const requestData = GenerateUnifiedCheckoutCaptureContextRequest.constructFromObject({
+      "targetOrigins" : [ "http://localhost:3000" ], // must be https
+      // when trying https, I get this error:
+      // "Profile for merchant not found or profile is still in draft state
+      "clientVersion" : "0.19",
+      "allowedCardNetworks" : [ "VISA", "MASTERCARD", "AMEX" ],
+      "allowedPaymentTypes" : [ "PANENTRY", "SRC" ],
+      "country" : "US",
+      "locale" : "en_US",
+      "captureMandate" : {
+        "billingType" : "PARTIAL",
+        "requestEmail" : false,
+        "requestPhone" : false,
+        "requestShipping" : false,
+        "shipToCountries" : [ "US" ],
+        "showAcceptedNetworkIcons" : true
+      },
+      "orderInformation" : {
+        "amountDetails" : {
+          "currency" : "USD",
+          "totalAmount": 123.45
+        }
+      }
+    });
+
+    instance.generateUnifiedCheckoutCaptureContext(requestData, (err, data, response) => {
+      if (response) {
+        console.log(`\n *** ${methodID} Response ***\n`, JSON.stringify(response));
+      }
+      if (err) {
+        console.log(`\n *** ${methodID} Error ***\n`, JSON.stringify(err));
+        reject(err);
+      } else if (data) {
+        console.log(`\n *** ${methodID} Response Data returned ***\n`, JSON.stringify(data));
+        resolve(data);
+      }
+    });
+  });
+}
+
+/**
+ * Create customer and a payment method at the same time.
  */
 async function createCustomer(options) {
   const methodID = 'createCustomer';
@@ -105,7 +158,7 @@ async function createCustomer(options) {
     tokenInformation: {
       transientTokenJwt: options.transientTokenJwt,
       paymentInstrument: {
-        default: true // this will be their default payment method
+        default: false // not used because we can't delete it without adding another default
       }
     },
     orderInformation: {
@@ -117,9 +170,9 @@ async function createCustomer(options) {
     },
     processingInformation: {
       actionList: [
-        'TOKEN_CREATE' // create the following token type
+        'TOKEN_CREATE' // create the following token types
       ],
-      actionTokenTypes: [ // create both of these at the same time using transient token
+      actionTokenTypes: [
         'customer',
         'paymentInstrument'
       ],
@@ -161,7 +214,7 @@ async function createCustomer(options) {
  */
 async function addPaymentMethod(options) {
   const methodID = 'addPaymentMethod';
-  let isValidTransientToken = false;
+  let isValidTransientToken = true;
 
   try {
     await validateTokenIntegrity(options.transientTokenJwt);
@@ -178,7 +231,7 @@ async function addPaymentMethod(options) {
     tokenInformation: {
       transientTokenJwt: options.transientTokenJwt,
       paymentInstrument: {
-        default: false // assumes that customer already created with default payment method
+        default: false // not used because we can't delete it without adding another default
       }
     },
     orderInformation: {
@@ -230,6 +283,7 @@ async function addPaymentMethod(options) {
 
 module.exports = {
   generateCaptureContext,
+  // generateUnifiedCheckoutCaptureContext,
   createCustomer,
   addPaymentMethod,
   // exposed for testing

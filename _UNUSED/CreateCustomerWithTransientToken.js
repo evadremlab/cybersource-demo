@@ -1,7 +1,7 @@
 try {
   const path = require('path');
   const restApi = require('cybersource-rest-client');
-  const cyberSourceConfig = require(path.resolve('config/CyberSource.js'));
+  const cyberSourceConfig = require(path.resolve('config/cybersource-config.js'));
 
   const apiClient = new restApi.ApiClient();
   const instance = new restApi.PaymentsApi(cyberSourceConfig, apiClient);

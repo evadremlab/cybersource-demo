@@ -23,6 +23,9 @@
       outline: 0;
       box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
     }
+    .cardLogos {
+      padding-left: 1rem;
+    }
   </style>
 </head>
 
@@ -39,6 +42,7 @@
       <div class="form-row">
         <div class="form-group col-md-6">
           <label id="cardNumber-label">Card Number</label>
+          <img class="cardLogos" src="/images/credit-card-logos.png">
           <span id="cardNumber-error" class="validation-error" role="alert"></span>
           <div id="cardNumber-container" class="form-control"></div>
         </div>
@@ -88,8 +92,7 @@
 <script src="https://testflex.cybersource.com/microform/bundle/v2.0/flex-microform.min.js"></script>
 
 <script>
-  // the capture context that was requested server-side for this transaction
-  var captureContext = "<%-captureContext%>";
+  // JWK is set up on the server side route for /
 
   var form = document.querySelector('#my-sample-form');
   var payButton = document.querySelector('#pay-button');
@@ -99,6 +102,9 @@
   var errorsOutput = document.querySelector('#errors-output');
   var cardNumberError = document.querySelector('#cardNumber-error');
   var securityCodeError = document.querySelector('#securityCode-error');
+
+  // the capture context that was requested server-side for this transaction
+  var captureContext = "<%-captureContext%>";
 
   // custom styles that will be applied to each field we create using Microform
   var myStyles = {

@@ -1,0 +1,38 @@
+{
+  "tokenInformation": {
+    "transientTokenJwt": "<from microform.createToken()>",
+    "paymentInstrument": {
+      "default": false
+    }
+  },
+  "processingInformation": {
+    "commerceIndicator": "internet",
+    "actionList": [
+      "TOKEN_CREATE"
+    ],
+    "actionTokenTypes": [
+      "customer",
+      "paymentInstrument"
+    ],
+    "capture": false
+  },
+  "orderInformation": {
+    "amountDetails": {
+      "totalAmount": "0.00",
+      "currency": "USD"
+    },
+    "billTo": {
+      "email": "david.balmer@transsight.com",
+      "locality": "Alameda",
+      "firstName": "David",
+      "lastName": "Balmer",
+      "address1": "100 Main Street",
+      "country": "US",
+      "administrativeArea": "CA",
+      "postalCode": "94501"
+    }
+  },
+  "clientReferenceInformation": {
+    "code": "some-order-id"
+  }
+}

@@ -6,60 +6,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
     integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
-
-  <style>
-    .td-1 {
-      word-break: break-all;
-      word-wrap: break-word;
-    }
-  </style>
 </head>
 
 <body>
   <div class="container card">
     <div class="card-body">
       <h1>Transient Token</h1>
-      <%=flexresponse%>
-      
+      <%=transientToken%>
       <form action="/checkout" id="checkout-form" method="get">
-      </form>
-      
-      <form action="/createCustomer" id="create-customer-form" method="post">
-        <input type="hidden" id="flexresponse" name="flexresponse">
-      </form>
-
-      <form action="/receipt" id="pay-with-token-form" method="post">
-        <button type="button" id="checkout-button" class="btn btn-primary">Back to Checkout</button>
-        <button type="button" id="create-customer-button" class="btn btn-primary">Create customer with Transient Token</button>
-        <button type="button" id="pay-button" class="btn btn-primary">Make a Payment with Transient Token</button>
-        <input type="hidden" id="flexresponse" name="flexresponse">
+        <button type="button" id="checkout-button" class="btn btn-primary">Back to Checkout form</button>
       </form>
     </div>
   </div>
   <script>
-    var flexResponse = document.querySelector('#flexresponse');
+    // var transientToken = document.querySelector('#transientToken');
     var checkoutButton = document.querySelector('#checkout-button');
-    var createCustomerButton = document.querySelector('#create-customer-button');
-    var payButton = document.querySelector('#pay-button');
 
     checkoutButton.addEventListener('click', function () {
       var form = document.querySelector('#checkout-form');
-      form.submit();
-    });
-
-    createCustomerButton.addEventListener('click', function () {
-      var form = document.querySelector('#create-customer-form');
-      var token = <%-flexresponse%>;
-      console.log(JSON.stringify(token));
-      flexResponse.value = JSON.stringify(token);
-      form.submit();
-    });
-
-    payButton.addEventListener('click', function () {
-      var form = document.querySelector('#pay-with-token-form');
-      var token = <%-flexresponse%>;
-      console.log(JSON.stringify(token));
-      flexResponse.value = JSON.stringify(token);
       form.submit();
     });
   </script>

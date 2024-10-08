@@ -1,7 +1,7 @@
 try {
   var path = require('path');
   var cybersourceRestApi = require('cybersource-rest-client');
-  var cybersourceConfiguration = require(path.resolve('config/CyberSource.js'));
+  var cybersourceConfiguration = require(path.resolve('config/cybersource-config.js'));
   
   var configObject = cybersourceConfiguration();
   var apiClient = new cybersourceRestApi.ApiClient();
