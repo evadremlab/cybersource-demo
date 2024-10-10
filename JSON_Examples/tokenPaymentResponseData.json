@@ -1,16 +1,16 @@
 {
   "_links": {
     "self": {
-      "href": "/pts/v2/payments/7279883110176390503954",
+      "href": "/pts/v2/payments/7284319487056266203955",
       "method": "GET"
     }
   },
-  "id": "7279883110176390503954",
-  "submitTimeUtc": "2024-10-03T20:45:12Z",
+  "id": "7284319487056266203955",
+  "submitTimeUtc": "2024-10-08T23:59:09Z",
   "status": "AUTHORIZED",
-  "reconciliationId": "79277094",
+  "reconciliationId": "79471906",
   "clientReferenceInformation": {
-    "code": "and-again-yet-another-order-id"
+    "code": "fake-order-id"
   },
   "processorInformation": {
     "authIndicator": "1",
@@ -38,7 +38,7 @@
       "type": "002"
     },
     "paymentInstrument": {
-      "id": "238812209805C8ABE063AF598E0A2101"
+      "id": "23FE0306218C3D37E063AF598E0A7E90"
     },
     "instrumentIdentifier": {
       "id": "7031410000201134444",
@@ -52,8 +52,8 @@
   },
   "orderInformation": {
     "amountDetails": {
-      "totalAmount": "123.45",
-      "authorizedAmount": "123.45",
+      "totalAmount": "105.00",
+      "authorizedAmount": "105.00",
       "currency": "USD"
     }
   },
@@ -73,22 +73,24 @@
     ],
     "infoCodes": {
       "address": [
-        "MM-BIN",
-        "UNV-ADDR"
+        "MM-BIN"
+      ],
+      "internet": [
+        "FREE-EM"
       ],
       "suspicious": [
         "INTL-BIN",
         "RISK-GEO"
       ]
     },
-    "localTime": "13:45:11",
+    "localTime": "16:59:08",
     "score": {
       "factorCodes": [
         "B",
         "G"
       ],
       "modelUsed": "default",
-      "result": "31"
+      "result": "30"
     }
   },
   "consumerAuthenticationInformation": {}

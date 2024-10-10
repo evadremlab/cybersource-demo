@@ -1,26 +1,23 @@
 {
   "_links": {
     "self": {
-      "href": "/pts/v2/payments/7284226777436958503955",
+      "href": "/pts/v2/payments/7285185282636879803954",
       "method": "GET"
-    },
-    "capture": {
-      "href": "/pts/v2/payments/7284226777436958503955/captures",
-      "method": "POST"
     }
   },
-  "id": "7284226777436958503955",
-  "submitTimeUtc": "2024-10-08T21:24:38Z",
+  "id": "7285185282636879803954",
+  "submitTimeUtc": "2024-10-10T00:02:09Z",
   "status": "AUTHORIZED",
-  "reconciliationId": "Z7DA51S1TDB4",
+  "reconciliationId": "79528089",
   "clientReferenceInformation": {
-    "code": "new-customer-order_id"
+    "code": "fake-order-id"
   },
   "processorInformation": {
+    "authIndicator": "1",
     "approvalCode": "831000",
-    "transactionId": "016150703802094",
-    "networkTransactionId": "016150703802094",
-    "responseCode": "85",
+    "transactionId": "0602MCC603474",
+    "networkTransactionId": "0602MCC603474",
+    "responseCode": "00",
     "avs": {
       "code": "Y",
       "codeRaw": "Y"
@@ -30,43 +27,38 @@
   "issuerInformation": {},
   "paymentAccountInformation": {
     "card": {
-      "type": "001"
+      "type": "002"
     }
   },
   "paymentInformation": {
     "card": {
-      "type": "001"
+      "type": "002"
     },
     "tokenizedCard": {
-      "type": "001"
+      "type": "002"
     },
-    "scheme": "VISA DEBIT",
-    "bin": "411111",
-    "accountType": "Visa Classic",
-    "issuer": "CONOTOXIA SP. Z O.O",
-    "binCountry": "PL"
+    "paymentInstrument": {
+      "id": "23FE0306218C3D37E063AF598E0A7E90"
+    },
+    "instrumentIdentifier": {
+      "id": "7031410000201134444",
+      "state": "ACTIVE"
+    },
+    "scheme": "MASTERCARD PREPAID",
+    "bin": "555555",
+    "accountType": "PREPAID",
+    "issuer": "CIAGROUP",
+    "binCountry": "BR"
   },
   "orderInformation": {
     "amountDetails": {
-      "authorizedAmount": "0.00",
+      "totalAmount": "12.34",
+      "authorizedAmount": "12.34",
       "currency": "USD"
     }
   },
   "pointOfSaleInformation": {
     "terminalId": "00123456"
-  },
-  "tokenInformation": {
-    "instrumentidentifierNew": false,
-    "customer": {
-      "id": "23FE6BBECBB6FF30E063AF598E0A49FF"
-    },
-    "paymentInstrument": {
-      "id": "23FE9440CD61A210E063AF598E0AE4EB"
-    },
-    "instrumentIdentifier": {
-      "id": "7037870000055421111",
-      "state": "ACTIVE"
-    }
   },
   "riskInformation": {
     "profile": {
@@ -91,14 +83,14 @@
         "RISK-GEO"
       ]
     },
-    "localTime": "14:24:37",
+    "localTime": "17:02:08",
     "score": {
       "factorCodes": [
         "B",
         "G"
       ],
       "modelUsed": "default",
-      "result": "39"
+      "result": "30"
     }
   },
   "consumerAuthenticationInformation": {}

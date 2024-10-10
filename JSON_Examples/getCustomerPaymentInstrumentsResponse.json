@@ -1,91 +1,97 @@
 {
   "_links": {
     "self": {
-      "href": "/tms/v2/customers/23AC2720514EA950E063AF598E0AF5C1/payment-instruments?offset=0&limit=20"
-    },
-    "first": {
-      "href": "/tms/v2/customers/23AC2720514EA950E063AF598E0AF5C1/payment-instruments?offset=0&limit=20"
-    },
-    "last": {
-      "href": "/tms/v2/customers/23AC2720514EA950E063AF598E0AF5C1/payment-instruments?offset=0&limit=20"
+      "href": "/pts/v2/payments/7285030748136921703955",
+      "method": "GET"
     }
   },
-  "offset": 0,
-  "limit": 20,
-  "count": 1,
-  "total": 1,
-  "_embedded": {
-    "paymentInstruments": [
+  "id": "7285030748136921703955",
+  "submitTimeUtc": "2024-10-09T19:44:35Z",
+  "status": "AUTHORIZED",
+  "reconciliationId": "79518956",
+  "clientReferenceInformation": {
+    "code": "fake-order-id"
+  },
+  "processorInformation": {
+    "authIndicator": "1",
+    "approvalCode": "831000",
+    "transactionId": "0602MCC603474",
+    "networkTransactionId": "0602MCC603474",
+    "responseCode": "00",
+    "avs": {
+      "code": "Y",
+      "codeRaw": "Y"
+    },
+    "merchantNumber": "000000000123456"
+  },
+  "issuerInformation": {},
+  "paymentAccountInformation": {
+    "card": {
+      "type": "002"
+    }
+  },
+  "paymentInformation": {
+    "card": {
+      "type": "002"
+    },
+    "tokenizedCard": {
+      "type": "002"
+    },
+    "paymentInstrument": {
+      "id": "23FE0306218C3D37E063AF598E0A7E90"
+    },
+    "instrumentIdentifier": {
+      "id": "7031410000201134444",
+      "state": "ACTIVE"
+    },
+    "scheme": "MASTERCARD PREPAID",
+    "bin": "555555",
+    "accountType": "PREPAID",
+    "issuer": "CIAGROUP",
+    "binCountry": "BR"
+  },
+  "orderInformation": {
+    "amountDetails": {
+      "totalAmount": "123.45",
+      "authorizedAmount": "123.45",
+      "currency": "USD"
+    }
+  },
+  "pointOfSaleInformation": {
+    "terminalId": "00123456"
+  },
+  "riskInformation": {
+    "profile": {
+      "name": "Standard mid-market profile",
+      "selectorRule": "Default Active Profile"
+    },
+    "rules": [
       {
-        "_links": {
-          "self": {
-            "href": "/tms/v2/customers/23AC2720514EA950E063AF598E0AF5C1/payment-instruments/23ABDDBBB5663C62E063AF598E0A07A9"
-          },
-          "customer": {
-            "href": "/tms/v2/customers/23AC2720514EA950E063AF598E0AF5C1"
-          }
-        },
-        "id": "23ABDDBBB5663C62E063AF598E0A07A9",
-        "default": true,
-        "state": "ACTIVE",
-        "card": {
-          "expirationMonth": "12",
-          "expirationYear": "2024",
-          "type": "001"
-        },
-        "buyerInformation": {
-          "currency": "USD"
-        },
-        "billTo": {
-          "firstName": "DAVID",
-          "lastName": "BALMER",
-          "address1": "3355 Geary Blvd.",
-          "locality": "San Francisco",
-          "administrativeArea": "CA",
-          "postalCode": "94118",
-          "country": "US",
-          "email": "david.balmer@transsight.com"
-        },
-        "processingInformation": {
-          "billPaymentProgramEnabled": false
-        },
-        "instrumentIdentifier": {
-          "id": "7037870000055421111"
-        },
-        "metadata": {
-          "creator": "transsightdev_1718140723"
-        },
-        "_embedded": {
-          "instrumentIdentifier": {
-            "_links": {
-              "self": {
-                "href": "/tms/v1/instrumentidentifiers/7037870000055421111"
-              },
-              "paymentInstruments": {
-                "href": "/tms/v1/instrumentidentifiers/7037870000055421111/paymentinstruments"
-              }
-            },
-            "id": "7037870000055421111",
-            "object": "instrumentIdentifier",
-            "state": "ACTIVE",
-            "card": {
-              "number": "411111XXXXXX1111"
-            },
-            "processingInformation": {
-              "authorizationOptions": {
-                "initiator": {
-                  "merchantInitiatedTransaction": {
-                    "previousTransactionId": "016150703802094"
-                  }
-                }
-              }
-            },
-            "metadata": {
-              "creator": "transsightdev_1718140723"
-            }
-          }
-        }
+        "name": "Fraud Score - Monitor",
+        "decision": "IGNORE"
       }
-    ]
-  }
+    ],
+    "infoCodes": {
+      "address": [
+        "MM-BIN"
+      ],
+      "internet": [
+        "FREE-EM"
+      ],
+      "suspicious": [
+        "INTL-BIN",
+        "RISK-GEO"
+      ]
+    },
+    "localTime": "12:44:34",
+    "score": {
+      "factorCodes": [
+        "B",
+        "G"
+      ],
+      "modelUsed": "default",
+      "result": "31"
+    }
+  },
+  "consumerAuthenticationInformation": {}
 }

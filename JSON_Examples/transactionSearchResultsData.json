@@ -1,0 +1,44 @@
+{
+  "save": false,
+  "name": "test",
+  "timezone": "America/Los_Angeles",
+  "query": "submitTimeUtc:[NOW/DAY-1DAYS TO NOW/DAY+1DAY}",
+  "offset": 0,
+  "limit": 100,
+  "sort": "submitTimeUtc:asc",
+  "count": 12,
+  "totalCount": 12,
+  "_embedded": {
+    "transactionSummaries": [
+      {
+        "id": "7285030748136921703955",
+        "submitTimeUtc": "2024-10-09T19:44:34Z",
+        "applicationInformation": {
+          "reasonCode": "100",
+          "rCode": "1",
+          "rFlag": "SOK",
+          "applications": [
+            {
+              "name": "ics_auth",
+              "reasonCode": "100",
+              "rCode": "1",
+              "rFlag": "SOK",
+              "reconciliationId": "W1HKS21YLSOR",
+              "rMessage": "Request was processed successfully.",
+              "returnCode": 1010000
+            },
+            {
+              "name": "ics_bill",
+              "reasonCode": "100",
+              "rCode": "1",
+              "rFlag": "SOK",
+              "reconciliationId": "79518956",
+              "rMessage": "Request was processed successfully.",
+              "returnCode": 1260000
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
