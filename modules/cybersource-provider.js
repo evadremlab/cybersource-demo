@@ -1,29 +1,18 @@
 /**
  * CyberSource Payment Provider.
  */
+const _ = require('lodash');
 const path = require('path');
 const axios = require('axios');
 const jwt = require('jsonwebtoken');
 var jwkToPem = require('jwk-to-pem');
+const RestClient = require('cybersource-rest-client');
 const cyberSourceConfig = require(path.resolve('config/cybersource-config.js'));
 
-const {
-  ApiClient,
-  PaymentsApi,
-  CaptureApi,
-  VoidApi,
-  PaymentInstrumentApi,
-  MicroformIntegrationApi,
-  SearchTransactionsApi,
-  UnifiedCheckoutCaptureContextApi,
-  CreatePaymentRequest,
-  CreateSearchRequest,
-  PatchPaymentInstrumentRequest,
-  CapturePaymentRequest,
-  VoidCaptureRequest,
-  GenerateCaptureContextRequest,
-  GenerateUnifiedCheckoutCaptureContextRequest
-} = require('cybersource-rest-client');
+// static parameter values
+const CURRENCY = 'USD';
+const TIME_ZONE = 'America/Los_Angeles'; // for transaction search
+const COMMERCE_INDICATOR = 'internet'; // default value for sale or auth order placed from a website
 
 /**
  * Decode JWT into header and payload.
@@ -71,19 +60,16 @@ async function validateTokenIntegrity(token) {
  * Generate capture context required to render microform UI and tokenize the data.
  */
 async function generateCaptureContext() {
+  const methodID = 'generateCaptureContext';
+
   return new Promise((resolve, reject) => {
-    const methodID = 'generateCaptureContext';
-  
-    const apiClient = new ApiClient();
-    const instance = new MicroformIntegrationApi(cyberSourceConfig, apiClient);
-  
-    const requestData = GenerateCaptureContextRequest.constructFromObject({
+    const instance = new RestClient.MicroformIntegrationApi(cyberSourceConfig, new RestClient.ApiClient());
+
+    instance.generateCaptureContext({
       clientVersion: 'v2.0',
       targetOrigins: ['http://localhost:3000'],
       allowedCardNetworks: ['VISA', 'MASTERCARD', 'AMEX', 'DISCOVER']
-    });
-
-    instance.generateCaptureContext(requestData, (err, data, response) => {
+    }, (err, data, response) => {
       if (err) {
         console.log(`\n *** ${methodID} Error ***\n`, JSON.stringify(err));
         reject(err);
@@ -96,51 +82,29 @@ async function generateCaptureContext() {
 }
 
 /**
- * Generate capture context required to render unified checkout UI and tokenize the data (NOT WORKING).
+ * Formulate request data for Sale or Auth Transaction.
  */
-async function generateUnifiedCheckoutCaptureContext() {
-  return new Promise((resolve, reject) => {
-    const methodID = 'generateUnifiedCheckoutCaptureContext';
-
-    const apiClient = new ApiClient();
-    const instance = new UnifiedCheckoutCaptureContextApi(cyberSourceConfig, apiClient);
-
-    // https://developer.cybersource.com/docs/cybs/en-us/digital-accept-flex/developer/all/rest/digital-accept-flex/uc-intro/uc-getting-started-ss-setup.html
-    const requestData = GenerateUnifiedCheckoutCaptureContextRequest.constructFromObject({
-      "targetOrigins" : [ "http://localhost:3000" ], // must be https
-      // when trying https, I get this error:
-      // "Profile for merchant not found or profile is still in draft state
-      "clientVersion" : "0.19",
-      "allowedCardNetworks" : [ "VISA", "MASTERCARD", "AMEX" ],
-      "allowedPaymentTypes" : [ "PANENTRY", "SRC" ],
-      "country" : "US",
-      "locale" : "en_US",
-      "captureMandate" : {
-        "billingType" : "PARTIAL",
-        "requestEmail" : false,
-        "requestPhone" : false,
-        "requestShipping" : false,
-        "shipToCountries" : [ "US" ],
-        "showAcceptedNetworkIcons" : true
-      },
-      "orderInformation" : {
-        "amountDetails" : {
-          "currency" : "USD",
-          "totalAmount": 123.45
-        }
+function getSaleOrAuthTransactionRequestData(options) {
+  return {
+    paymentInformation: {
+      paymentInstrument: {
+        id: options.token
       }
-    });
-
-    instance.generateUnifiedCheckoutCaptureContext(requestData, (err, data, response) => {
-      if (err) {
-        console.log(`\n *** ${methodID} Error ***\n`, JSON.stringify(err));
-        reject(err);
-      } else if (data) {
-        console.log(`\n *** ${methodID} Data ***\n`, JSON.stringify(data));
-        resolve(data);
+    },
+    orderInformation: {
+      amountDetails: {
+        currency: CURRENCY,
+        totalAmount: options.amount
       }
-    });
-  });
+    },
+    processingInformation: {
+      capture: options?.isHoldAuthorization ? false : true,
+      commerceIndicator: COMMERCE_INDICATOR
+    },
+    clientReferenceInformation: {
+      code: options.order_id
+    }
+  };
 }
 
 /**
@@ -148,52 +112,48 @@ async function generateUnifiedCheckoutCaptureContext() {
  */
 async function createCustomer(options) {
   const methodID = 'createCustomer';
-  let isValidTransientToken = true;
 
-  try {
-    await validateTokenIntegrity(options.transientTokenJwt);
-  } catch (err) {
-    isValidTransientToken = false;
-  }
+  return new Promise(async (resolve, reject) => {
+    let isValidTransientToken = true;
 
-  const requestData = CreatePaymentRequest.constructFromObject({
-    tokenInformation: {
-      transientTokenJwt: options.transientTokenJwt,
-      paymentInstrument: {
-        default: true // must be true for customers first payment method
-      }
-    },
-    orderInformation: {
-      billTo: options.billTo,
-      amountDetails: {
-        currency: 'USD',
-        totalAmount: '0' // zero dollar auth
-      }
-    },
-    processingInformation: {
-      actionList: [
-        'TOKEN_CREATE' // create the following token types
-      ],
-      actionTokenTypes: [
-        'customer',
-        'paymentInstrument'
-      ],
-      capture: false, // auth only
-      commerceIndicator: 'internet' // Default value for authorizations and E-commerce orders placed from a website
-    },
-    clientReferenceInformation: {
-      code: options.order_id
+    try {
+      await validateTokenIntegrity(options.transientTokenJwt);
+    } catch (err) {
+      isValidTransientToken = false;
     }
-  });
-
-  console.log(`\n *** ${methodID} Request ***\n`, JSON.stringify(requestData));
-
-  return new Promise((resolve, reject) => {
+  
     if (isValidTransientToken) {
-      const apiClient = new ApiClient();
-      const instance = new PaymentsApi(cyberSourceConfig, apiClient);
+      const instance = new RestClient.PaymentsApi(cyberSourceConfig, new RestClient.ApiClient());
     
-      instance.createPayment(requestData, (err, data, response) => {
+      instance.createPayment({
+        tokenInformation: {
+          transientTokenJwt: options.transientTokenJwt,
+          paymentInstrument: {
+            default: true // must be true for customers first payment method
+          }
+        },
+        orderInformation: {
+          billTo: options.billTo,
+          amountDetails: {
+            currency: CURRENCY,
+            totalAmount: '0' // zero dollar auth
+          }
+        },
+        processingInformation: {
+          actionList: [
+            'TOKEN_CREATE' // create the following token types
+          ],
+          actionTokenTypes: [
+            'customer',
+            'paymentInstrument'
+          ],
+          capture: false, // auth only
+          commerceIndicator: COMMERCE_INDICATOR
+        },
+        clientReferenceInformation: {
+          code: options.order_id
+        }
+      }, (err, data, response) => {
         if (err) {
           console.log(`\n *** ${methodID} Error ***\n`, JSON.stringify(err));
           reject(err);
@@ -213,64 +173,64 @@ async function createCustomer(options) {
  */
 async function addPaymentMethod(options) {
   const methodID = 'addPaymentMethod';
-  let isValidTransientToken = true;
 
-  try {
-    await validateTokenIntegrity(options.transientTokenJwt);
-  } catch (err) {
-    isValidTransientToken = false;
-  }
+  return new Promise(async (resolve, reject) => {
+    let isValidTransientToken = true;
 
-  const requestData = CreatePaymentRequest.constructFromObject({
-    paymentInformation: {
-      customer: {
-        id: options.customerTokenId
-      }
-    },
-    tokenInformation: {
-      transientTokenJwt: options.transientTokenJwt,
-      paymentInstrument: {
-        default: false // not used because we can't delete it without adding another default
-      }
-    },
-    orderInformation: {
-      billTo: options.billTo,
-      amountDetails: {
-        currency: 'USD',
-        totalAmount: '0' // zero dollar auth
-      }
-    },
-    processingInformation: {
-      actionList: [
-        'TOKEN_CREATE' // create the following token type
-      ],
-      actionTokenTypes: [
-        'paymentInstrument'
-      ],
-      capture: false, // auth only
-      commerceIndicator: 'internet' // Default value for authorizations and E-commerce orders placed from a website.
-    },
-    clientReferenceInformation: {
-      code: options.order_id
+    try {
+      await validateTokenIntegrity(options.transientTokenJwt);
+    } catch (err) {
+      isValidTransientToken = false;
     }
-  });
-
-  console.log(`\n *** ${methodID} Request ***\n`, JSON.stringify(requestData));
-
-  return new Promise((resolve, reject) => {
+  
     if (isValidTransientToken) {
-      const apiClient = new ApiClient();
-      const instance = new PaymentsApi(cyberSourceConfig, apiClient);
+      try {
+        const instance = new RestClient.PaymentsApi(cyberSourceConfig, new RestClient.ApiClient());
     
-      instance.createPayment(requestData, (err, data, response) => {
-        if (err) {
-          console.log(`\n *** ${methodID} Error ***\n`, JSON.stringify(err));
-          reject(err);
-        } else if (data) {
-          console.log(`\n *** ${methodID} Data ***\n`, JSON.stringify(data));
-          resolve(data);
-        }
-      });
+        instance.createPayment({
+          paymentInformation: {
+            customer: {
+              id: options.customerTokenId
+            }
+          },
+          tokenInformation: {
+            transientTokenJwt: options.transientTokenJwt,
+            paymentInstrument: {
+              default: false // not used because we can't delete it without adding another default
+            }
+          },
+          orderInformation: {
+            // billTo: options.billTo,
+            amountDetails: {
+              currency: CURRENCY,
+              totalAmount: '0' // zero dollar auth
+            }
+          },
+          processingInformation: {
+            actionList: [
+              'TOKEN_CREATE' // create the following token type
+            ],
+            actionTokenTypes: [
+              'paymentInstrument'
+            ],
+            capture: false, // auth only
+            commerceIndicator: COMMERCE_INDICATOR
+          },
+          clientReferenceInformation: {
+            code: options.order_id
+          }
+        }, (err, data, response) => {
+          if (err) {
+            console.log(`\n *** ${methodID} Error ***\n`, JSON.stringify(err));
+            reject(err);
+          } else if (data) {
+            console.log(`\n *** ${methodID} Data ***\n`, JSON.stringify(data));
+            resolve(data);
+          }
+        });
+      } catch (err) {
+        reject(err);
+      }     
     } else {
       reject('invalid transient token');
     }
@@ -279,51 +239,55 @@ async function addPaymentMethod(options) {
 
 /**
  * Get existing payment method details.
+ * Used to get card type and expiration date for payment method creation.
  */
 async function getPaymentMethodDetails(token) {
   const methodID = 'getPaymentMethodDetails';
 
-  console.log(`\n *** ${methodID} Request ***\n`, token);
-
   return new Promise((resolve, reject) => {
-    var opts = [];
-    const apiClient = new ApiClient();
-    const instance = new PaymentInstrumentApi(cyberSourceConfig, apiClient);
+    try {
+      var opts = [];
+      const instance = new RestClient.PaymentInstrumentApi(cyberSourceConfig, new RestClient.ApiClient());
 
-    instance.getPaymentInstrument(token, opts, function (err, data, response) {
-      if (err) {
-        console.log(`\n *** ${methodID} Error ***\n`, JSON.stringify(err));
-        reject(err);
-      } else if (data) {
-        console.log(`\n *** ${methodID} Data ***\n`, JSON.stringify(data));
-        resolve(data);
-      }
-    });
+      instance.getPaymentInstrument(token, opts, function (err, data, response) {
+        if (err) {
+          console.log(`\n *** ${methodID} Error ***\n`, JSON.stringify(err));
+          reject(err);
+        } else if (data) {
+          console.log(`\n *** ${methodID} Data ***\n`, JSON.stringify(data));
+          resolve(data);
+        }
+      });
+    } catch (err) {
+      reject(err);
+    }
   });
 }
 
 /**
  * Delete existing payment method.
+ * NOTE: cannot delete a customers default payment method.
  */
 async function deletePaymentMethod(token) {
   const methodID = 'deletePaymentMethod';
 
-  console.log(`\n *** ${methodID} Request ***\n`, token);
-
   return new Promise((resolve, reject) => {
-    var opts = [];
-    const apiClient = new ApiClient();
-    const instance = new PaymentsApi(cyberSourceConfig, apiClient);
-
-    instance.deletePaymentInstrument(token, opts, function (err, data, response) {
-      if (err) {
-        console.log(`\n *** ${methodID} Error ***\n`, JSON.stringify(err));
-        reject(err);
-      } else if (data) {
-        console.log(`\n *** ${methodID} Data ***\n`, JSON.stringify(data));
-        resolve(data);
-      }
-    });
+    try {
+      var opts = [];
+      const instance = new RestClient.PaymentsApi(cyberSourceConfig, new RestClient.ApiClient());
+  
+      instance.deletePaymentInstrument(token, opts, function (err, data, response) {
+        if (err) {
+          console.log(`\n *** ${methodID} Error ***\n`, JSON.stringify(err));
+          reject(err);
+        } else if (data) {
+          console.log(`\n *** ${methodID} Data ***\n`, JSON.stringify(data));
+          resolve(data);
+        }
+      });
+    } catch (err) {
+      reject(err);
+    }
   });
 }
 
@@ -334,25 +298,25 @@ async function deletePaymentMethod(token) {
 async function updatePaymentMethod(customerId, token) {
   const methodID = 'updatePaymentMethod';
 
-  console.log(`\n *** ${methodID} Request ***\n`, token);
-
   return new Promise((resolve, reject) => {
-    var opts = [];
-    const apiClient = new ApiClient();
-    const instance = new PaymentsApi(cyberSourceConfig, apiClient);
-    var requestData = PatchPaymentInstrumentRequest.constructFromObject({
-      default: true
-    });
-
-    instance.patchPaymentInstrument(token, requestData, opts, function (err, data, response) {
-      if (err) {
-        console.log(`\n *** ${methodID} Error ***\n`, JSON.stringify(err));
-        reject(err);
-      } else if (data) {
-        console.log(`\n *** ${methodID} Data ***\n`, JSON.stringify(data));
-        resolve(data);
-      }
-    });
+    try {
+      var opts = [];
+      const instance = new RestClient.PaymentsApi(cyberSourceConfig, new RestClient.ApiClient());
+  
+      instance.patchPaymentInstrument(token, {
+        default: true
+      }, opts, function (err, data, response) {
+        if (err) {
+          console.log(`\n *** ${methodID} Error ***\n`, JSON.stringify(err));
+          reject(err);
+        } else if (data) {
+          console.log(`\n *** ${methodID} Data ***\n`, JSON.stringify(data));
+          resolve(data);
+        }
+      });
+    } catch (err) {
+      reject(err);
+    }
   });
 }
 
@@ -362,72 +326,26 @@ async function updatePaymentMethod(customerId, token) {
 async function saleTransaction(options) {
   const methodID = 'saleTransaction';
 
-  const requestData = CreatePaymentRequest.constructFromObject({
-    paymentInformation: {
-      paymentInstrument: {
-        id: options.token
-      }
-    },
-    orderInformation: {
-      amountDetails: {
-        currency: 'USD',
-        totalAmount: options.amount
-      }
-    },
-    processingInformation: {
-      capture: true, // auth and submit for settlement
-      commerceIndicator: 'internet' // Default value for authorizations and E-commerce orders placed from a website.
-    },
-    clientReferenceInformation: {
-      code: options.order_id
-    }
-  });
-
-  console.log(`\n *** ${methodID} Request ***\n`, JSON.stringify(requestData));
-
   return new Promise((resolve, reject) => {
-    const apiClient = new ApiClient();
-    const instance = new PaymentsApi(cyberSourceConfig, apiClient);
+    try {
+      const instance = new RestClient.PaymentsApi(cyberSourceConfig, new RestClient.ApiClient());
   
-    instance.createPayment(requestData, (err, data, response) => {
-      if (err) {
-        console.log(`\n *** ${methodID} Error ***\n`, JSON.stringify(err));
-        reject(err);
-      } else if (data) {
-        console.log(`\n *** ${methodID} Data ***\n`, JSON.stringify(data));
-        resolve(data);
-      }
-    });
-  });
-}
+      const requestData = getSaleOrAuthTransactionRequestData(Object.assign({
+        isHoldAuthorization: false
+      }, options));
 
-/**
- * Void transaction.
- */
-async function voidTransaction(options) {
-  const methodID = 'voidTransaction';
-
-  const requestData = VoidCaptureRequest.constructFromObject({
-    clientReferenceInformation: {
-      code: options.order_id
+      instance.createPayment(requestData, (err, data, response) => {
+        if (err) {
+          console.log(`\n *** ${methodID} Error ***\n`, JSON.stringify(err));
+          reject(err);
+        } else if (data) {
+          console.log(`\n *** ${methodID} Data ***\n`, JSON.stringify(data));
+          resolve(data);
+        }
+      });
+    } catch (err) {
+      reject(err);
     }
-  });
-
-  console.log(`\n *** ${methodID} Request ***\n`, JSON.stringify(requestData));
-
-  return new Promise((resolve, reject) => {
-    const apiClient = new ApiClient();
-    const instance = new VoidApi(cyberSourceConfig, apiClient);
-  
-    instance.voidCapture(requestData, options.transaction_id, function (err, data, response) {
-      if (err) {
-        console.log(`\n *** ${methodID} Error ***\n`, JSON.stringify(err));
-        reject(err);
-      } else if (data) {
-        console.log(`\n *** ${methodID} Data ***\n`, JSON.stringify(data));
-        resolve(data);
-      }
-    });
   });
 }
 
@@ -437,42 +355,90 @@ async function voidTransaction(options) {
 async function holdAuthorization(options) {
   const methodID = 'holdAuthorization';
 
-  const requestData = CreatePaymentRequest.constructFromObject({
-    paymentInformation: {
-      paymentInstrument: {
-        id: options.token
-      }
-    },
-    orderInformation: {
-      amountDetails: {
-        currency: 'USD',
-        totalAmount: options.amount
-      }
-    },
-    processingInformation: {
-      capture: false, // auth only
-      commerceIndicator: 'internet' // Default value for authorizations and E-commerce orders placed from a website.
-    },
-    clientReferenceInformation: {
-      code: options.order_id
+  return new Promise((resolve, reject) => {
+    try {
+      const instance = new RestClient.PaymentsApi(cyberSourceConfig, new RestClient.ApiClient());
+  
+      const requestData = getSaleOrAuthTransactionRequestData(Object.assign({
+        isHoldAuthorization: true
+      }, options));
+
+      instance.createPayment(requestData, (err, data, response) => {
+        if (err) {
+          console.log(`\n *** ${methodID} Error ***\n`, JSON.stringify(err));
+          reject(err);
+        } else if (data) {
+          console.log(`\n *** ${methodID} Data ***\n`, JSON.stringify(data));
+          resolve(data);
+        }
+      });
+    } catch (err) {
+      reject(err);
     }
   });
+}
 
-  console.log(`\n *** ${methodID} Request ***\n`, JSON.stringify(requestData));
+/**
+ * Refund transaction.
+ */
+async function refundTransaction(options) {
+  const methodID = 'refundTransaction';
 
   return new Promise((resolve, reject) => {
-    const apiClient = new ApiClient();
-    const instance = new PaymentsApi(cyberSourceConfig, apiClient);
-  
-    instance.createPayment(requestData, (err, data, response) => {
-      if (err) {
-        console.log(`\n *** ${methodID} Error ***\n`, JSON.stringify(err));
-        reject(err);
-      } else if (data) {
-        console.log(`\n *** ${methodID} Data ***\n`, JSON.stringify(data));
-        resolve(data);
-      }
-    });
+    try {
+      const instance = new RestClient.RefundApi(cyberSourceConfig, new RestClient.ApiClient());
+
+      instance.refundPayment({
+        clientReferenceInformation: {
+          code: options.order_id
+        },
+        orderInformation: {
+          amountDetails: {
+            currency: CURRENCY,
+            totalAmount: options.amount
+          }
+        }
+      }, options.transaction_id, (err, data, response) => {
+        if (err) {
+          console.log(`\n *** ${methodID} Error ***\n`, JSON.stringify(err));
+          reject(err);
+        } else if (data) {
+          console.log(`\n *** ${methodID} Data ***\n`, JSON.stringify(data));
+          resolve(data);
+        }
+      });
+    } catch (err) {
+      reject(err);
+    }
+  });
+}
+
+/**
+ * Void transaction.
+ */
+async function voidTransaction(options) {
+  const methodID = 'voidTransaction';
+
+  return new Promise((resolve, reject) => {
+    try {
+      const instance = new RestClient.VoidApi(cyberSourceConfig, new RestClient.ApiClient());
+
+      instance.voidCapture({
+        clientReferenceInformation: {
+          code: options.order_id
+        }
+      }, options.transaction_id, function (err, data, response) {
+        if (err) {
+          console.log(`\n *** ${methodID} Error ***\n`, JSON.stringify(err));
+          reject(err);
+        } else if (data) {
+          console.log(`\n *** ${methodID} Data ***\n`, JSON.stringify(data));
+          resolve(data);
+        }
+      });
+    } catch (err) {
+      reject(err);
+    }
   });
 }
 
@@ -481,57 +447,87 @@ async function holdAuthorization(options) {
  */
 async function transactionSearch() {
   const methodID = 'transactionSearch';
-  
-  // Authorizations Ready To Settle
-  // https://ebc2test.cybersource.com/payment/v1/payments/search?q=authsReadyToSettle%3DY%26transactionDate%3E%3D1727897596210%26transactionDate%3C%3D1728502396211&searchType=settle&orgId=transsightdev_1718140723
-
-  // Settlements Pending Batch
-  // https://ebc2test.cybersource.com/payment/v1/payments/search?q=pendingSettlement%3DY%26transactionDate%3E%3D1728329671994%26transactionDate%3C%3D1728502471994&searchType=pendingSettlement&orgId=transsightdev_1718140723
-  
-  const requestData = CreateSearchRequest.constructFromObject({
-    save: false,
-    name: 'test',
-    timezone: 'America/Los_Angeles',
-    searchType: 'pendingSettlement', // Settlements Pending Batch
-    // searchType: 'settle', // Authorizations Ready To Settle
-    query: 'submitTimeUtc:[NOW/DAY-1DAYS TO NOW/DAY+1DAY}',
-    offset: 0,
-    limit: 2600,
-    sort: 'submitTimeUtc:asc'
-  });
-
-  console.log(`\n *** ${methodID} Request ***\n`, JSON.stringify(requestData));
 
   return new Promise((resolve, reject) => {
-    const apiClient = new ApiClient();
-    const instance = new SearchTransactionsApi(cyberSourceConfig, apiClient);
-  
-    instance.createSearch(requestData, (err, data, response) => {
-      if (err) {
-        console.log(`\n *** ${methodID} Error ***\n`, JSON.stringify(err));
-        reject(err);
-      } else if (data) {
-        console.log(`\n *** ${methodID} Data ***\n`, JSON.stringify(data));
-        resolve(data);
-      }
-    });
+    try {
+      const instance = new RestClient.SearchTransactionsApi(cyberSourceConfig, new RestClient.ApiClient());
+
+      instance.createSearch({
+        save: false,
+        name: 'test',
+        timezone: TIME_ZONE,
+        searchType: 'pendingSettlement', // Settlements Pending Batch
+        // searchType: 'settle', // Authorizations Ready To Settle
+        query: 'submitTimeUtc:[NOW/DAY-1DAYS TO NOW/DAY+1DAY}',
+        offset: 0,
+        limit: 2000,
+        sort: 'submitTimeUtc:asc'
+      }, (err, data, response) => {
+        if (err) {
+          console.log(`\n *** ${methodID} Error ***\n`, JSON.stringify(err));
+          reject(err);
+        } else if (data) {
+          console.log(`\n *** ${methodID} Data ***\n`, JSON.stringify(data));
+          let result = {
+            count: data.count,
+            totalCount: data.totalCount,
+            offset: data.offset,
+            limit: data.limit,
+            transactionIds: []
+          };
+          _.each(data?._embedded?.transactionSummaries, txn => {
+            _.each(txn?.applicationInformation?.applications, x => {
+              if (x.name === 'ics_bill' && x.reasonCode === '100') { // settled
+                result.transactionIds.push(txn.id);
+              }
+            });
+          });
+          resolve(result);
+        }
+      });
+    } catch (err) {
+      reject(err);
+    }
+  });
+}
+
+async function getTransactionDetails(options) {
+  const methodID = 'getTransactionDetails';
+
+  return new Promise((resolve, reject) => {
+    try {
+      const instance = new RestClient.TransactionDetailsApi(cyberSourceConfig, new RestClient.ApiClient());
+
+      instance.getTransaction(options.transaction_id, (err, data, response) => {
+        if (err) {
+          console.log(`\n *** ${methodID} Error ***\n`, JSON.stringify(err));
+          reject(err);
+        } else if (data) {
+          console.log(`\n *** ${methodID} Data ***\n`, JSON.stringify(data));
+          resolve(data);
+        }
+      });
+    } catch (err) {
+      reject(err);
+    }
   });
 }
 
 module.exports = {
   generateCaptureContext,
-  // generateUnifiedCheckoutCaptureContext,
+  validateCaptureContext: validateTokenIntegrity,
+  validateTransientToken: validateTokenIntegrity,
   createCustomer,
   addPaymentMethod,
-  saleTransaction,
-  voidTransaction,
-  holdAuthorization,
-  transactionSearch,
   getPaymentMethodDetails,
   deletePaymentMethod,
   updatePaymentMethod,
+  saleTransaction,
+  voidTransaction,
+  refundTransaction,
+  holdAuthorization,
+  transactionSearch,
+  getTransactionDetails,
   // exposed for testing
-  decodeJWT,
-  validateCaptureContext: validateTokenIntegrity,
-  validateTransientToken: validateTokenIntegrity
+  decodeJWT
 }

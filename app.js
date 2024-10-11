@@ -38,18 +38,6 @@ app.get('/checkout', async function (req, res) {
   }
 });
 
-// Render unified checkout form using captureContext (NOT WORKING)
-// app.get('/unifiedCheckout', async function (req, res) {
-//   try {
-//     var captureContext = await generateUnifiedCheckoutCaptureContext();
-//     // await validateCaptureContext(captureContext); // will throw error if invalid
-//     res.render('unifiedCheckout', { captureContext });
-//   } catch (err) {
-//     console.log(err);
-//     res.render('error', { error: err, message: 'Error generating capture context in /unifiedCheckout route' });
-//   }
-// });
-
 // Display the transient token generated from the payment information
 app.post('/token', function (req, res) {
   try {

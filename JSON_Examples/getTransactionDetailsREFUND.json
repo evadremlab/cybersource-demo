@@ -1,0 +1,150 @@
+{
+  "id": "7286681477456003604953",
+  "rootId": "7284319487056266203955",
+  "reconciliationId": "79615119",
+  "merchantId": "transsightdev_1718140723",
+  "submitTimeUTC": "2024-10-11T17:35:47Z",
+  "applicationInformation": {
+    "status": "PENDING",
+    "reasonCode": "100",
+    "applications": [
+      {
+        "name": "ics_credit",
+        "status": "PENDING",
+        "reasonCode": "100",
+        "rCode": "1",
+        "rFlag": "SOK",
+        "reconciliationId": "79615119",
+        "rMessage": "Request was processed successfully.",
+        "returnCode": 1030000
+      }
+    ]
+  },
+  "buyerInformation": {},
+  "clientReferenceInformation": {
+    "code": "fake-order-id",
+    "applicationVersion": "1.0",
+    "applicationName": "REST API",
+    "partner": {}
+  },
+  "consumerAuthenticationInformation": {
+    "strongAuthentication": {}
+  },
+  "deviceInformation": {},
+  "errorInformation": {
+    "message": "Request was processed successfully."
+  },
+  "installmentInformation": {},
+  "fraudMarkingInformation": {},
+  "merchantInformation": {
+    "merchantDescriptor": {
+      "name": "transsightdev_1718140723"
+    }
+  },
+  "orderInformation": {
+    "billTo": {
+      "firstName": "DAVID",
+      "lastName": "BALMER",
+      "address1": "3355 Geary Blvd.",
+      "locality": "San Francisco",
+      "administrativeArea": "CA",
+      "postalCode": "94118",
+      "email": "cybersource_test_002@yopmail.com",
+      "country": "US"
+    },
+    "shipTo": {},
+    "lineItems": [
+      {
+        "productCode": "default",
+        "taxAmount": "0",
+        "quantity": 1,
+        "unitPrice": "1.23"
+      }
+    ],
+    "amountDetails": {
+      "totalAmount": "1.23",
+      "currency": "USD",
+      "taxAmount": "0",
+      "authorizedAmount": "1.23"
+    },
+    "shippingDetails": {},
+    "invoiceDetails": {}
+  },
+  "paymentInformation": {
+    "paymentType": {
+      "name": "fdiglobal",
+      "type": "credit card",
+      "method": "MC"
+    },
+    "customer": {
+      "customerId": "23FE0306218C3D37E063AF598E0A7E90"
+    },
+    "card": {
+      "suffix": "4444",
+      "expirationMonth": "12",
+      "expirationYear": "2024",
+      "type": "002"
+    },
+    "invoice": {},
+    "issuerInformation": {},
+    "accountFeatures": {},
+    "paymentInstrument": {},
+    "instrumentIdentifier": {},
+    "shippingAddress": {},
+    "fluidData": {}
+  },
+  "paymentInsightsInformation": {
+    "responseInsights": {}
+  },
+  "payoutOptions": {},
+  "unscheduledPaymentInformation": {},
+  "processingInformation": {
+    "paymentSolution": "MasterCard",
+    "commerceIndicator": "7",
+    "commerceIndicatorLabel": "internet",
+    "authorizationOptions": {
+      "cardVerificationIndicator": false,
+      "initiator": {
+        "merchantInitiatedTransaction": {}
+      }
+    },
+    "bankTransferOptions": {},
+    "captureOptions": {},
+    "reconciliationId": "79615119",
+    "japanPaymentOptions": {}
+  },
+  "processorInformation": {
+    "processor": {
+      "name": "fdiglobal"
+    },
+    "avs": {},
+    "cardVerification": {},
+    "achVerification": {},
+    "electronicVerificationResults": {}
+  },
+  "recurringPaymentInformation": {},
+  "pointOfSaleInformation": {
+    "terminalId": "00123456"
+  },
+  "riskInformation": {
+    "score": {}
+  },
+  "senderInformation": {},
+  "tokenInformation": {},
+  "_links": {
+    "self": {
+      "href": "https://apitest.cybersource.com/tss/v2/transactions/7286681477456003604953",
+      "method": "GET"
+    },
+    "relatedTransactions": [
+      {
+        "href": "https://apitest.cybersource.com/tss/v2/transactions/7284319487056266203955",
+        "method": "GET"
+      },
+      {
+        "href": "https://apitest.cybersource.com/tss/v2/transactions/7286688879576739204953",
+        "method": "GET"
+      }
+    ]
+  }
+}
